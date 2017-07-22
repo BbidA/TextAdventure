@@ -14,9 +14,10 @@ public class MessageHelper {
 
     /**
      * print a plain message to the console(actually this is just a println now, but it may change when I create the GUI in the future)
-     * @param msg the message to print
+     * @param msg the message to print.
+     * @param type the type of this message (which may be presented by different color in the future).
      */
-    public static void printPlainMsg(String msg) {
+    public static void printPlainMsg(String msg, MessageType type) {
         System.out.println(msg);
     }
 
@@ -34,8 +35,8 @@ public class MessageHelper {
      * get the user's input
      * @return user's answer of the system's prompt
      */
-    public static String getCommand() {
-        String reply = "something wrong with the getCommand method";
+    public static String getUserInput() {
+        String reply = "something wrong with the getUserInput method";
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             reply = reader.readLine();
         } catch (IOException e) {

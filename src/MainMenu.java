@@ -1,4 +1,5 @@
 import io.MessageHelper;
+import io.MessageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,25 +11,36 @@ import java.util.List;
  */
 public class MainMenu {
 
-    private List<String> menuItems;
-
     public MainMenu() {
-        menuItems = new ArrayList<>();
+        List<String> menuItems = new ArrayList<>();
         menuItems.add("New");
         menuItems.add("Load");
-        MessageHelper.printPlainMsg("Welcome to the adventure world");
+        MessageHelper.printPlainMsg("Welcome to the adventure world", MessageType.PLAIN);
         MessageHelper.printMenu(menuItems);
+        interact();
     }
 
+    /**
+     * Loop until the user input the right command. Choose 1 means create a new game, choose 2 meas load a game from the profiles and
+     * if the user input "exit", the while loop will be broke.
+     */
     private void interact() {
-        String userInput = MessageHelper.getCommand();
-        switch (userInput) {
-            case "0":
-                //create a new game
-            case "1":
-                //list all the files
-            default:
-                MessageHelper.printPlainMsg("wrong command");
+        String userInput = MessageHelper.getUserInput();
+        label:
+        while (true) {
+            switch (userInput) {
+                case "0":
+                    Game.createNewGame().startGame();
+                    break label;
+                case "1":
+                    Game.loadGame().startGame();
+                    break label;
+                case "exit":
+                    break label;
+                default:
+                    MessageHelper.printPlainMsg("Wrong command", MessageType.WARNING);
+                    break;
+            }
         }
     }
 

@@ -1,0 +1,7 @@
+{
+  "lifeValueMax": 100,
+  "magicValueMax": 80,
+  "attack": 30,
+  "defence": 10,
+  "expLimit": 100
+}

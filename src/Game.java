@@ -29,18 +29,47 @@ public class Game {
      */
     public static void createNewGame() {
 
-        new Game(PlayerManager.createNewPlayer()).startGame();
+        MessageHelper.printPlainMsg("Please enter your name: ", MessageType.PLAIN);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            String playerName;
+            while ((playerName = reader.readLine()) != null) {
+                //check the name's validation
+                playerName = playerName.trim();
+                if (playerName.equals("")) {
+                    MessageHelper.printPlainMsg("Can't be blank", MessageType.WARNING);
+                } else if (nameDuplicate(playerName)) {
+                    MessageHelper.printPlainMsg("This name has been used", MessageType.WARNING);
+                } else {
+                    break;
+                }
+            }
+            Player player = new Player(playerName);
+            //create profiles
+            new Game(player).startGame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static boolean nameDuplicate(String name) {
+        String[] files = new File("json/profiles").list();
+        for (String file : files) {
+            System.out.println(file);
+            if (file.equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
      * List the files and then load a game according to the user's input.
      */
     public static boolean loadGame() {
-
+        //TODO to be completed
         File file = new File("json/profiles");
         String[] files = Optional.ofNullable(file.list()).orElse(new String[0]);
         if (files.length == 0) {
-            //TODO fix the problem when this situation appears
             MessageHelper.printPlainMsg("There's no old profiles can be loaded", MessageType.WARNING);
             return false;
         } else {
@@ -62,9 +91,11 @@ public class Game {
      */
     private void startGame() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            MessageHelper.printPlainMsg("Welcome to the adventure world " + player.getName(), MessageType.PLAIN);
             String userInput;
             while ((userInput = reader.readLine()) != null) {
                 if (userInput.equals("exit")) {
+                    MessageHelper.printPlainMsg("Bye ", MessageType.PLAIN);
                     //save user status and exit
                     exit();
                 }
@@ -79,6 +110,7 @@ public class Game {
      * Save data and then exit the game.
      */
     private void exit() {
-
+        player.save();
+        System.exit(0);
     }
 }

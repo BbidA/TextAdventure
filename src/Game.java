@@ -1,5 +1,4 @@
 import command.CommandParser;
-import io.FileHelper;
 import io.MessageHelper;
 import io.MessageType;
 import player.Player;
@@ -27,42 +26,41 @@ public class Game {
 
     /**
      * Create a new Game.
-     * @return A Game object start from beginning.
      */
-    public static Game createNewGame() {
+    public static void createNewGame() {
 
-        return new Game(PlayerManager.createNewPlayer());
+        new Game(PlayerManager.createNewPlayer()).startGame();
     }
 
     /**
-     * list the files and then load a game according to the user's input.
-     * @return A Game object represent the game user chose.
+     * List the files and then load a game according to the user's input.
      */
-    public static Game loadGame() {
+    public static boolean loadGame() {
 
         File file = new File("json/profiles");
         String[] files = Optional.ofNullable(file.list()).orElse(new String[0]);
         if (files.length == 0) {
             //TODO fix the problem when this situation appears
             MessageHelper.printPlainMsg("There's no old profiles can be loaded", MessageType.WARNING);
+            return false;
         } else {
             MessageHelper.printMenu(Arrays.asList(files));
-            String option = MessageHelper.getUserInput();
-            int optNum;
-            try {
+            int optNum = 0;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+                String option = reader.readLine();
                 optNum = Integer.parseInt(option);
-            } catch (NumberFormatException e) {
-                optNum = 0;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return new Game(PlayerManager.loadPlayer(files[optNum]));
+            new Game(PlayerManager.loadPlayer(files[optNum])).startGame();
+            return true;
         }
-        return new Game(PlayerManager.loadPlayer(""));
     }
 
     /**
      * the main loop of the game. If the user input "exit", the game will save the user status and then exit.
      */
-    public void startGame() {
+    private void startGame() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String userInput;
             while ((userInput = reader.readLine()) != null) {

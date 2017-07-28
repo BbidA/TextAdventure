@@ -1,6 +1,9 @@
 import io.MessageHelper;
 import io.MessageType;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,23 +28,29 @@ public class MainMenu {
      * if the user input "exit", the while loop will be broke.
      */
     private void interact() {
-        String userInput = MessageHelper.getUserInput();
-        label:
-        while (true) {
-            switch (userInput) {
-                case "0":
-                    Game.createNewGame().startGame();
-                    break label;
-                case "1":
-                    Game.loadGame().startGame();
-                    break label;
-                case "exit":
-                    break label;
-                default:
-                    MessageHelper.printPlainMsg("Wrong command", MessageType.WARNING);
-                    break;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            label:
+            while (true) {
+                String userInput = reader.readLine();
+                switch (userInput) {
+                    case "0":
+                        Game.createNewGame();
+                        break label;
+                    case "1":
+                        if (Game.loadGame())
+                            break label;
+                        break;
+                    case "exit":
+                        break label;
+                    default:
+                        MessageHelper.printPlainMsg("Wrong command", MessageType.WARNING);
+                        break;
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
 //    public static void main(String[] args) {

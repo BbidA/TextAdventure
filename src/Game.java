@@ -75,14 +75,18 @@ public class Game {
         } else {
             MessageHelper.printMenu(Arrays.asList(files));
             int optNum = 0;
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-                String option = reader.readLine();
+            try {
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                String option = MessageHelper.take();
                 optNum = Integer.parseInt(option);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                return false;
             }
-            new Game(PlayerManager.loadPlayer(files[optNum])).startGame();
-            return true;
+
+            Optional<Player> tmpOptional = Optional.ofNullable(PlayerManager.loadPlayer(files[optNum]));
+            Game game = tmpOptional.map(Game::new).get();
+            game.startGame();
+            return tmpOptional.isPresent();
         }
     }
 
@@ -90,19 +94,31 @@ public class Game {
      * the main loop of the game. If the user input "exit", the game will save the user status and then exit.
      */
     private void startGame() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-            MessageHelper.printPlainMsg("Welcome to the adventure world " + player.getName(), MessageType.PLAIN);
-            String userInput;
-            while ((userInput = reader.readLine()) != null) {
-                if (userInput.equals("exit")) {
-                    MessageHelper.printPlainMsg("Bye ", MessageType.PLAIN);
-                    //save user status and exit
-                    exit();
-                }
+        MessageHelper.printPlainMsg("Welcome to the adventure world " + player.getName(), MessageType.PLAIN);
+        player.printAttributes();
+//        try {
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//            String userInput;
+//            while ((userInput = reader.readLine()) != null) {
+//                if (userInput.equals("exit")) {
+//                    MessageHelper.printPlainMsg("Bye ", MessageType.PLAIN);
+//                    //save user status and exit
+//                    exit();
+//                }
+//                parser.parseCommand(userInput);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        String userInput;
+        while (true) {
+            userInput = MessageHelper.take();
+            if (userInput.equals("exit")) {
+                MessageHelper.printPlainMsg("Bye ", MessageType.PLAIN);
+                //save user status and exit
+                exit();
+            } else
                 parser.parseCommand(userInput);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

@@ -8,10 +8,7 @@ import io.MessageType;
 import item.Equipment;
 import item.Storage;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +21,7 @@ import java.util.Random;
  * @author Liao
  */
 public class Player {
+    private static final String LINE_SEP = System.lineSeparator();
     private static final int ATTACK_INIT_VALUE = 30;
     private static final int DEFENCE_INIT_VALUE = 10;
     private static final int EXP_UP_VALUE = 100;
@@ -41,14 +39,9 @@ public class Player {
     private Map<EquipmentLocation, Equipment> equipments;
     private Storage storage; //store items
 
-    public static Player loadPlayer(String playerName) {
-        //TODO use gson to load the player's attributes
-        JsonParser parser = new JsonParser();
-        return null;
-    }
 
     /**
-     * Save the data in the json file, if the player already exits, this method will overwrite it.
+     * Save the data in the json file, if the player already exists, this method will overwrite it.
      */
     public void save() {
         //TODO complete the equipment and items saving
@@ -118,6 +111,19 @@ public class Player {
     }
 
     /**
+     * Display the player's attributes
+     */
+    public void printAttributes() {
+        String attributes = "life: " + lifeValue + "/" + lifeValueMax + LINE_SEP
+                + "magic: " + magicValue + "/" + magicValueMax + LINE_SEP
+                + "level: " + level + LINE_SEP
+                + "exp: " + exp + "/" + expMax + LINE_SEP
+                + "attack: " + attack + LINE_SEP
+                + "defence: " + defence;
+        MessageHelper.printPlainMsg(attributes, MessageType.PLAIN);
+    }
+
+    /**
      * Calculate the attack value
      * TODO finish this method
      */
@@ -135,5 +141,54 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    //Setter methods
+    public void setLifeValue(int lifeValue) {
+        this.lifeValue = lifeValue;
+    }
+
+    public void setLifeValueMax(int lifeValueMax) {
+        this.lifeValueMax = lifeValueMax;
+    }
+
+    public void setMagicValue(int magicValue) {
+        this.magicValue = magicValue;
+    }
+
+    public void setMagicValueMax(int magicValueMax) {
+        this.magicValueMax = magicValueMax;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public void setDefence(int defence) {
+        this.defence = defence;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+
+    public void setExpMax(int expMax) {
+        this.expMax = expMax;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEquipments(Map<EquipmentLocation, Equipment> equipments) {
+        this.equipments = equipments;
+    }
+
+    public void setStorage(Storage storage) {
+        this.storage = storage;
     }
 }

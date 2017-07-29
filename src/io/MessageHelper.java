@@ -1,5 +1,8 @@
 package io;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 /**
@@ -26,5 +29,16 @@ public class MessageHelper {
         for (int i = 0; i < menuItems.size(); i++) {
             System.out.printf("[%d] " + menuItems.get(i) + System.lineSeparator(), i);
         }
+    }
+
+    public static String take() {
+        String message = "";
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            message = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return message;
     }
 }

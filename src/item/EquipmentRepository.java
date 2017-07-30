@@ -41,7 +41,6 @@ public enum EquipmentRepository {
         JsonParser parser = new JsonParser();
         try (Reader reader = new FileReader(FILE_PATH)) {
             JsonObject jsonObject = parser.parse(reader).getAsJsonObject();
-//            for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
             return gson.fromJson(jsonObject.get(equipmentName), Equipment.class);
         } catch (IOException e) {
             e.printStackTrace();

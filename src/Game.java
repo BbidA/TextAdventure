@@ -119,13 +119,9 @@ public class Game {
                 MessageHelper.printPlainMsg("Bye ", MessageType.PLAIN);
                 //save user status and exit
                 exit();
-            } else {
-                Equipment equipment = EquipmentRepository.INSTANCE.getEquipment("sword");
-                System.out.println(equipment);
-                player.equip(equipment);
-                player.printAttributes();
-            }
-//                parser.parseCommand(userInput);
+                break;
+            } else
+                parser.parseCommand(userInput);
         }
     }
 

@@ -1,6 +1,8 @@
 import command.CommandParser;
 import io.MessageHelper;
 import io.MessageType;
+import item.Equipment;
+import item.EquipmentRepository;
 import player.Player;
 import player.PlayerManager;
 
@@ -117,8 +119,13 @@ public class Game {
                 MessageHelper.printPlainMsg("Bye ", MessageType.PLAIN);
                 //save user status and exit
                 exit();
-            } else
-                parser.parseCommand(userInput);
+            } else {
+                Equipment equipment = EquipmentRepository.INSTANCE.getEquipment("sword");
+                System.out.println(equipment);
+                player.equip(equipment);
+                player.printAttributes();
+            }
+//                parser.parseCommand(userInput);
         }
     }
 

@@ -1,4 +1,4 @@
-package player;
+package item;
 
 /**
  * Created on 2017/7/28.
@@ -6,4 +6,8 @@ package player;
  * @author Liao
  */
 public enum EquipmentLocation {
+    HAND,
+    CHEST,
+    LEGS,
+    HEAD
 }

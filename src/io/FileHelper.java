@@ -1,13 +1,9 @@
 package io;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.Optional;
-
 /**
  * Created on 2017/7/21.
  * @author : Liao
- * Description : Help load/save/delete/add files
+ *         Description : Help load/save/delete/add files
  */
 public class FileHelper {
 

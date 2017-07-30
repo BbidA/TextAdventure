@@ -2,16 +2,17 @@ package player;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import io.MessageHelper;
 import io.MessageType;
 import item.Equipment;
+import item.EquipmentLocation;
 import item.Storage;
 
-import java.io.*;
-import java.nio.file.Files;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -39,6 +40,28 @@ public class Player {
     private Map<EquipmentLocation, Equipment> equipments;
     private Storage storage; //store items
 
+
+    /**
+     * Create a new player
+     */
+    public Player(String name) {
+        this.name = name;
+
+        lifeValue = 100;
+        lifeValueMax = 100;
+        magicValue = 100;
+        magicValueMax = 100;
+        expMax = 50;
+        level = 0;
+
+        //the attack and defence
+        Random random = new Random();
+        attack = ATTACK_INIT_VALUE + random.nextInt(ATTRIBUTE_UP_VARIATION_RANGE);
+        defence = DEFENCE_INIT_VALUE + random.nextInt(ATTRIBUTE_UP_VARIATION_RANGE);
+
+        equipments = new HashMap<>();
+        storage = new Storage();
+    }
 
     /**
      * Save the data in the json file, if the player already exists, this method will overwrite it.
@@ -73,44 +96,6 @@ public class Player {
     }
 
     /**
-     * Create a new player
-     */
-    public Player(String name) {
-        this.name = name;
-
-        lifeValue = 100;
-        lifeValueMax = 100;
-        magicValue = 100;
-        magicValueMax = 100;
-        expMax = 50;
-        level = 0;
-
-        //the attack and defence
-        Random random = new Random();
-        attack = ATTACK_INIT_VALUE + random.nextInt(ATTRIBUTE_UP_VARIATION_RANGE);
-        defence = DEFENCE_INIT_VALUE + random.nextInt(ATTRIBUTE_UP_VARIATION_RANGE);
-
-        equipments = new HashMap<>();
-        storage = new Storage();
-    }
-
-    public Player(int lifeValue, int lifeValueMax, int magicValue, int magicValueMax, int attack
-            , int defence, int level, int exp, int expMax, String name, Map<EquipmentLocation, Equipment> equipments, Storage storage) {
-        this.lifeValue = lifeValue;
-        this.lifeValueMax = lifeValueMax;
-        this.magicValue = magicValue;
-        this.magicValueMax = magicValueMax;
-        this.attack = attack;
-        this.defence = defence;
-        this.level = level;
-        this.exp = exp;
-        this.expMax = expMax;
-        this.name = name;
-        this.equipments = equipments;
-        this.storage = storage;
-    }
-
-    /**
      * Display the player's attributes
      */
     public void printAttributes() {
@@ -136,11 +121,15 @@ public class Player {
      * TODO finish this method
      */
     public void equip(Equipment target) {
-
+        target.equipTo(this);
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     //Setter methods
@@ -148,24 +137,40 @@ public class Player {
         this.lifeValue = lifeValue;
     }
 
+    public int getLifeValueMax() {
+        return lifeValueMax;
+    }
+
     public void setLifeValueMax(int lifeValueMax) {
         this.lifeValueMax = lifeValueMax;
     }
 
-    public void setMagicValue(int magicValue) {
-        this.magicValue = magicValue;
+    public int getMagicValueMax() {
+        return magicValueMax;
     }
 
     public void setMagicValueMax(int magicValueMax) {
         this.magicValueMax = magicValueMax;
     }
 
+    public int getAttack() {
+        return attack;
+    }
+
     public void setAttack(int attack) {
         this.attack = attack;
     }
 
+    public int getDefence() {
+        return defence;
+    }
+
     public void setDefence(int defence) {
         this.defence = defence;
+    }
+
+    public void setMagicValue(int magicValue) {
+        this.magicValue = magicValue;
     }
 
     public void setLevel(int level) {
@@ -178,10 +183,6 @@ public class Player {
 
     public void setExpMax(int expMax) {
         this.expMax = expMax;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setEquipments(Map<EquipmentLocation, Equipment> equipments) {

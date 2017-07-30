@@ -1,0 +1,11 @@
+{
+  "sword": {
+    "name": "Sword",
+    "location": "hand",
+    "description": "a ugly sword",
+    "addAttack": 10,
+    "addMagic": 0,
+    "addHealth": 0,
+    "addDefence": 0
+  }
+}

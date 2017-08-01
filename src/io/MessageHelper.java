@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class MessageHelper {
 
+    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
     /**
      * print a plain message to the console(actually this is just a println now, but it may change when I create the GUI in the future)
      * @param msg  the message to print.
@@ -34,7 +36,6 @@ public class MessageHelper {
     public static String take() {
         String message = "";
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             message = reader.readLine();
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,7 +1,7 @@
 import command.CommandParser;
 import io.MessageHelper;
 import io.MessageType;
-import item.Equipment;
+import item.EquipmentLocation;
 import item.EquipmentRepository;
 import player.Player;
 import player.PlayerManager;
@@ -56,7 +56,7 @@ public class Game {
     private static boolean nameDuplicate(String name) {
         String[] files = new File("json/profiles").list();
         for (String file : files) {
-            System.out.println(file);
+//            System.out.println(file);
             if (file.equals(name)) {
                 return true;
             }
@@ -120,8 +120,10 @@ public class Game {
                 //save user status and exit
                 exit();
                 break;
-            } else
+            } else {
+                player.equip(EquipmentRepository.INSTANCE.getEquipment("sword"));
                 parser.parseCommand(userInput);
+            }
         }
     }
 

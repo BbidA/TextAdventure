@@ -5,7 +5,6 @@ import com.google.gson.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Map;
 
 /**
  * Created on 2017/7/30.
@@ -37,6 +36,11 @@ public enum EquipmentRepository {
         gson = gsonBuilder.create();
     }
 
+    /**
+     * Get the Equipment object according to the String parameter passed.
+     * @param equipmentName the name of the equipment, which should be recorded in the "equipment.json" file.
+     * @return null if there's no such equipment, or will return the equipment object expected.
+     */
     public Equipment getEquipment(String equipmentName) {
         JsonParser parser = new JsonParser();
         try (Reader reader = new FileReader(FILE_PATH)) {

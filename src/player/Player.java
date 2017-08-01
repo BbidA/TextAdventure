@@ -1,7 +1,6 @@
 package player;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import io.MessageHelper;
 import io.MessageType;
 import item.Equipment;
@@ -40,7 +39,6 @@ public class Player {
     private Map<EquipmentLocation, Equipment> equipments;
     private Storage storage; //store items
 
-
     /**
      * Create a new player
      */
@@ -61,14 +59,16 @@ public class Player {
 
         equipments = new HashMap<>();
         storage = new Storage();
+
+        //initialize the gson to serialize the Equipment properly
     }
 
     /**
      * Save the data in the json file, if the player already exists, this method will overwrite it.
      */
     public void save() {
-        //TODO complete the equipment and items saving
         Gson gson = new Gson();
+        //TODO complete the equipment and items saving
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("name", name);
         jsonObject.addProperty("lifeValue", lifeValue);
@@ -80,6 +80,14 @@ public class Player {
         jsonObject.addProperty("level", level);
         jsonObject.addProperty("exp", exp);
         jsonObject.addProperty("expMax", expMax);
+
+        //equipment part
+        JsonObject equipmentObj = new JsonObject();
+        for (EquipmentLocation location : EquipmentLocation.values()) {
+            Equipment tmp = equipments.get(location);
+            equipmentObj.addProperty(location.toString(), tmp == null ? "nothing" : tmp.getName());
+        }
+        jsonObject.add("equipments", equipmentObj);
 
         String dirName = "json/profiles/" + name;
         File file = new File(dirName);
@@ -117,11 +125,12 @@ public class Player {
     }
 
     /**
-     * Equip an equipment and change the attribute
+     * Equip an equipment and change the attribute, then update the equipments Map.
      * TODO finish this method
      */
     public void equip(Equipment target) {
         target.equipTo(this);
+        equipments.put(target.getLocation(), target);
     }
 
     public String getName() {

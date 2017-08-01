@@ -17,7 +17,7 @@ public class PlayerManager {
     /**
      * Load a player according to the player's name
      * @param playerName name of the player you want to load
-     * @return null if there's no such a player else return the Player object represent this player
+     * @return null if there's no such a player else return the Player represent this player
      */
     public static Player loadPlayer(String playerName) {
         JsonParser parser = new JsonParser();
@@ -36,6 +36,7 @@ public class PlayerManager {
             player.setAttack(jsonObject.get("attack").getAsInt());
             player.setDefence(jsonObject.get("defence").getAsInt());
             //TODO load equipment and storage
+
 
             return player;
         } catch (IOException e) {

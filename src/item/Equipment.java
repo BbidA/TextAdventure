@@ -30,6 +30,36 @@ public class Equipment {
         this.addMagic = builder.addMagic;
     }
 
+    /**
+     * Add the attribute to the player
+     * @param player the player who will equip this equipment
+     */
+    public void equipTo(Player player) {
+        player.setDefence(player.getDefence() + addDefence);
+        player.setAttack(player.getAttack() + addAttack);
+        player.setLifeValueMax(player.getLifeValueMax() + addHealth);
+        player.setMagicValueMax(player.getMagicValueMax() + addMagic);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public EquipmentLocation getLocation() {
+        return location;
+    }
+
+    @Override
+    public String toString() {
+        return name + LINE_SEP
+                + "Description: " + description + LINE_SEP
+                + "Equipment Location: " + location + LINE_SEP
+                + (addAttack == 0 ? "" : "Attack: " + addAttack + LINE_SEP)
+                + (addDefence == 0 ? "" : "Defence: " + addDefence + LINE_SEP)
+                + (addHealth == 0 ? "" : "Health: " + addHealth + LINE_SEP)
+                + (addMagic == 0 ? "" : "Magic: " + addMagic + LINE_SEP);
+    }
+
     public static class Builder {
         // Required parameters
         private final String name;
@@ -71,27 +101,5 @@ public class Equipment {
         public Equipment build() {
             return new Equipment(this);
         }
-    }
-
-    /**
-     * Add the attribute to the player
-     * @param player the player who will equip this equipment
-     */
-    public void equipTo(Player player) {
-        player.setDefence(player.getDefence() + addDefence);
-        player.setAttack(player.getAttack() + addAttack);
-        player.setLifeValueMax(player.getLifeValueMax() + addHealth);
-        player.setMagicValueMax(player.getMagicValueMax() + addMagic);
-    }
-
-    @Override
-    public String toString() {
-        return name + LINE_SEP
-                + "Description: " + description + LINE_SEP
-                + "Equipment Location: " + location + LINE_SEP
-                + (addAttack == 0 ? "" : "Attack: " + addAttack + LINE_SEP)
-                + (addDefence == 0 ? "" : "Defence: " + addDefence + LINE_SEP)
-                + (addHealth == 0 ? "" : "Health: " + addHealth + LINE_SEP)
-                + (addMagic == 0 ? "" : "Magic: " + addMagic + LINE_SEP);
     }
 }

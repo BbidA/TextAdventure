@@ -14,12 +14,12 @@ import java.util.List;
  */
 public class MainMenu {
 
+    List<String> menuItems;
+
     public MainMenu() {
-        List<String> menuItems = new ArrayList<>();
+        menuItems = new ArrayList<>();
         menuItems.add("New");
         menuItems.add("Load");
-        MessageHelper.printPlainMsg("Welcome to the adventure world", MessageType.PLAIN);
-        MessageHelper.printMenu(menuItems);
         interact();
     }
 
@@ -31,6 +31,8 @@ public class MainMenu {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             label:
             while (true) {
+                MessageHelper.printMessage("Welcome to the adventure world", MessageType.PLAIN);
+                MessageHelper.printMenu(menuItems);
                 String userInput = reader.readLine();
                 switch (userInput) {
                     case "0":
@@ -41,9 +43,10 @@ public class MainMenu {
                             break label;
                         break;
                     case "exit":
+                        MessageHelper.printExitMsg();
                         break label;
                     default:
-                        MessageHelper.printPlainMsg("Wrong command", MessageType.WARNING);
+                        MessageHelper.printMessage("Wrong command", MessageType.WARNING);
                         break;
                 }
             }

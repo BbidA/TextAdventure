@@ -1,7 +1,6 @@
 import command.CommandParser;
 import io.MessageHelper;
 import io.MessageType;
-import item.EquipmentLocation;
 import item.EquipmentRepository;
 import player.Player;
 import player.PlayerManager;
@@ -27,20 +26,23 @@ public class Game {
     }
 
     /**
-     * Create a new Game.
+     * Create a new Game. (The user's name can't be 'exit')
      */
     public static void createNewGame() {
 
-        MessageHelper.printPlainMsg("Please enter your name: ", MessageType.PLAIN);
+        MessageHelper.printMessage("Please enter your name: ", MessageType.PLAIN);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             String playerName;
             while ((playerName = reader.readLine()) != null) {
                 //check the name's validation
                 playerName = playerName.trim();
                 if (playerName.equals("")) {
-                    MessageHelper.printPlainMsg("Can't be blank", MessageType.WARNING);
+                    MessageHelper.printMessage("Can't be blank", MessageType.WARNING);
                 } else if (nameDuplicate(playerName)) {
-                    MessageHelper.printPlainMsg("This name has been used", MessageType.WARNING);
+                    MessageHelper.printMessage("This name has been used", MessageType.WARNING);
+                } else if (playerName.equals("exit")) {
+                    MessageHelper.printExitMsg();
+                    return;
                 } else {
                     break;
                 }
@@ -71,15 +73,21 @@ public class Game {
         File file = new File("json/profiles");
         String[] files = Optional.ofNullable(file.list()).orElse(new String[0]);
         if (files.length == 0) {
-            MessageHelper.printPlainMsg("There's no old profiles can be loaded", MessageType.WARNING);
+            MessageHelper.printMessage("There's no old profiles can be loaded", MessageType.WARNING);
             return false;
         } else {
             MessageHelper.printMenu(Arrays.asList(files));
             int optNum;
             try {
                 String option = MessageHelper.take();
+                //When user input "exit"
+                if (option.equals("exit")) {
+                    MessageHelper.printExitMsg();
+                    System.exit(0);
+                }
                 optNum = Integer.parseInt(option);
             } catch (NumberFormatException e) {
+                MessageHelper.printMessage("Invalid Input", MessageType.WARNING);
                 return false;
             }
 
@@ -93,13 +101,13 @@ public class Game {
      * the main loop of the game. If the user input "exit", the game will save the user status and then exit.
      */
     private void startGame() {
-        MessageHelper.printPlainMsg("Welcome to the adventure world " + player.getName(), MessageType.PLAIN);
+        MessageHelper.printMessage("Welcome to the adventure world " + player.getName(), MessageType.PLAIN);
         player.printAttributes();
         String userInput;
         while (true) {
             userInput = MessageHelper.take();
             if (userInput.equals("exit")) {
-                MessageHelper.printPlainMsg("Bye ", MessageType.PLAIN);
+                MessageHelper.printExitMsg();
                 //save user status and exit
                 exit();
                 break;
@@ -116,7 +124,7 @@ public class Game {
      * Save data and then exit the game.
      */
     private void exit() {
-        player.save();
+        Optional.of(player).ifPresent(Player::save);
         System.exit(0);
     }
 }

@@ -19,15 +19,22 @@ public class MessageHelper {
      * @param msg  the message to print.
      * @param type the type of this message (which may be presented by different color in the future).
      */
-    public static void printPlainMsg(String msg, MessageType type) {
+    public static void printMessage(String msg, MessageType type) {
         System.out.println(msg);
+    }
+
+    /**
+     * Print bye when the user typed 'exit'
+     */
+    public static void printExitMsg() {
+        System.out.println("Bye");
     }
 
     /**
      * print a menu in the console in a format
      * @param menuItems the items of this menu
      */
-    public static void printMenu(List<String> menuItems) {
+    public static void printMenu(List menuItems) {
         for (int i = 0; i < menuItems.size(); i++) {
             System.out.printf("[%d] " + menuItems.get(i) + System.lineSeparator(), i);
         }
@@ -41,5 +48,9 @@ public class MessageHelper {
             e.printStackTrace();
         }
         return message;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

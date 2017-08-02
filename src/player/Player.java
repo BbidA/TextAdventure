@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -98,7 +99,7 @@ public class Player {
         }
         try (Writer writer = new FileWriter(dirName + "/" + name + "_profile.json")) {
             gson.toJson(jsonObject, writer);
-            MessageHelper.printPlainMsg("Save successfully", MessageType.PLAIN);
+            MessageHelper.printMessage("Save successfully", MessageType.PLAIN);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -114,7 +115,7 @@ public class Player {
                 + "exp: " + exp + "/" + expMax + LINE_SEP
                 + "attack: " + attack + LINE_SEP
                 + "defence: " + defence;
-        MessageHelper.printPlainMsg(attributes, MessageType.PLAIN);
+        MessageHelper.printMessage(attributes, MessageType.PLAIN);
     }
 
     /**
@@ -135,6 +136,15 @@ public class Player {
     }
 
     /**
+     * Print the equipment list and then remove the equipment user chosen.
+     */
+    public void removeEquipment() {
+        MessageHelper.printMessage("Enter the part which you want to remove: ", MessageType.PROMPT);
+        listEquipment();
+        String userEntered = MessageHelper.take();
+    }
+
+    /**
      * Print equipment list. If the equipment in some place is empty, it'll be denoted by "nothing".
      */
     public void listEquipment() {
@@ -148,7 +158,7 @@ public class Player {
                     .append(tmp == null ? "nothing" : tmp.getName())
                     .append(LINE_SEP);
         }
-        MessageHelper.printPlainMsg(equipmentInfo.toString(), MessageType.PLAIN);
+        MessageHelper.printMessage(equipmentInfo.toString(), MessageType.PLAIN);
     }
 
     public String getName() {

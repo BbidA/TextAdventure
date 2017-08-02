@@ -37,7 +37,7 @@ public class PlayerManager {
             player.setMagicValue(jsonObject.get("magicValue").getAsInt());
             player.setMagicValueMax(jsonObject.get("magicValueMax").getAsInt());
             player.setLevel(jsonObject.get("level").getAsInt());
-            player.setExp(jsonObject.get("exp").getAsInt());
+            player.expUp(jsonObject.get("exp").getAsInt());
             player.setExpMax(jsonObject.get("expMax").getAsInt());
             player.setAttack(jsonObject.get("attack").getAsInt());
             player.setDefence(jsonObject.get("defence").getAsInt());

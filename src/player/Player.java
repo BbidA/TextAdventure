@@ -33,10 +33,12 @@ public class Player {
     private int level;
     private int exp;
     private int expMax;
+    private int luckyPoint; //between 0 and 10
 
     private String name;
     private Map<EquipmentLocation, Equipment> equipments;
     private Storage storage; //store items
+    public final ExpHelper expHelper;
 
     /**
      * Create a new player
@@ -56,18 +58,19 @@ public class Player {
         attack = ATTACK_INIT_VALUE + random.nextInt(ATTRIBUTE_UP_VARIATION_RANGE);
         defence = DEFENCE_INIT_VALUE + random.nextInt(ATTRIBUTE_UP_VARIATION_RANGE);
 
+        luckyPoint = random.nextInt(10);
         equipments = new HashMap<>();
         storage = new Storage(this);
-
-        //initialize the gson to serialize the Equipment properly
+        expHelper = new ExpHelper(this);
     }
+
 
     /**
      * Save the data in the json file, if the player already exists, this method will overwrite it.
      */
     public void save() {
         Gson gson = new Gson();
-        //TODO complete the equipment and items saving
+        //TODO complete and items saving
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("name", name);
         jsonObject.addProperty("lifeValue", lifeValue);
@@ -165,9 +168,6 @@ public class Player {
      */
     public void listEquipment() {
         StringBuilder equipmentInfo = new StringBuilder("Equipment:" + LINE_SEP);
-//        for (Map.Entry<EquipmentLocation, Equipment> entry : equipments.entrySet()) {
-//            equipmentInfo.append(entry.getKey().toString()).append(" : ").append(entry.getValue().getName()).append(LINE_SEP);
-//        }
         for (EquipmentLocation location : EquipmentLocation.values()) {
             Equipment tmp = equipments.get(location);
             equipmentInfo.append(location.toString()).append(" : ")
@@ -177,17 +177,71 @@ public class Player {
         MessageHelper.printMessage(equipmentInfo.toString(), MessageType.PLAIN);
     }
 
+    public int getLifeValue() {
+        return lifeValue;
+    }
+
+    //Setter methods
+    public void setLifeValue(int lifeValue) {
+        if (lifeValue > lifeValueMax)
+            this.lifeValue = lifeValueMax;
+        else
+            this.lifeValue = lifeValue;
+    }
+
+    public int getMagicValue() {
+        return magicValue;
+    }
+
+    /**
+     * The value of magic value mustn't be larger than maxValue.
+     * @param magicValue the magic value you intend to set
+     */
+    public void setMagicValue(int magicValue) {
+        if (magicValue > magicValueMax)
+            this.magicValue = magicValueMax;
+        else
+            this.magicValue = magicValue;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
+    }
+
+    public int getExpMax() {
+        return expMax;
+    }
+
+    public void setExpMax(int expMax) {
+        this.expMax = expMax;
+    }
+
+    public int getLuckyPoint() {
+        return luckyPoint;
+    }
+
+    public void setLuckyPoint(int luckyPoint) {
+        this.luckyPoint = luckyPoint;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    //Setter methods
-    public void setLifeValue(int lifeValue) {
-        this.lifeValue = lifeValue;
     }
 
     public int getLifeValueMax() {
@@ -222,22 +276,6 @@ public class Player {
         this.defence = defence;
     }
 
-    public void setMagicValue(int magicValue) {
-        this.magicValue = magicValue;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public void setExp(int exp) {
-        this.exp = exp;
-    }
-
-    public void setExpMax(int expMax) {
-        this.expMax = expMax;
-    }
-
     public void setEquipments(Map<EquipmentLocation, Equipment> equipments) {
         this.equipments = equipments;
     }
@@ -245,6 +283,7 @@ public class Player {
     public void setStorage(Storage storage) {
         this.storage = storage;
     }
+
 
     //test code
 //    public static void main(String[] args) {

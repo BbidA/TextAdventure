@@ -13,11 +13,13 @@ import java.util.Map;
 public class Storage {
     private static final int INITIAL_SIZE = 64;
 
-    private Map<Item, Integer> items;
+    private Map<Equipment, Integer> equipmentBag;
+    private Map<Consumable, Integer> consumableBag;
     private Player player;
 
     public Storage(Player player) {
         this.player = player;
-        items = new HashMap<>(INITIAL_SIZE);
+        equipmentBag = new HashMap<>(INITIAL_SIZE);
+        consumableBag = new HashMap<>(INITIAL_SIZE);
     }
 }

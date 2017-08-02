@@ -41,6 +41,17 @@ public class Equipment {
         player.setMagicValueMax(player.getMagicValueMax() + addMagic);
     }
 
+    /**
+     * Subtract attributes point when remove a equipment from a player
+     * @param player The player who wearing this equipment
+     */
+    public void removeFrom(Player player) {
+        player.setDefence(player.getDefence() - addDefence);
+        player.setAttack(player.getAttack() - addAttack);
+        player.setLifeValueMax(player.getLifeValueMax() - addHealth);
+        player.setMagicValueMax(player.getMagicValueMax() - addMagic);
+    }
+
     public String getName() {
         return name;
     }

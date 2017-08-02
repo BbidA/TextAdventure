@@ -6,16 +6,14 @@ import io.MessageHelper;
 import io.MessageType;
 import item.Equipment;
 import item.EquipmentLocation;
+import item.EquipmentRepository;
 import item.Storage;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created on 2017/7/22.
@@ -139,9 +137,28 @@ public class Player {
      * Print the equipment list and then remove the equipment user chosen.
      */
     public void removeEquipment() {
-        MessageHelper.printMessage("Enter the part which you want to remove: ", MessageType.PROMPT);
         listEquipment();
+        List<EquipmentLocation> equipmentLocations = new ArrayList<>();
+        equipmentLocations.addAll(equipments.keySet());
+        if (equipmentLocations.size() == 0) {
+            MessageHelper.printMessage("You have no equipment", MessageType.WARNING);
+            return;
+        }
+        MessageHelper.printMenu(equipmentLocations);
+        MessageHelper.printMessage("Enter the part which you want to remove: ", MessageType.PROMPT);
         String userEntered = MessageHelper.take();
+        try {
+            int optNum = Integer.parseInt(userEntered);
+            if (optNum >= equipmentLocations.size() || optNum < 0) {
+                MessageHelper.printMessage("Out of bounds", MessageType.WARNING);
+                return;
+            }
+            equipments.remove(equipmentLocations.get(optNum)).removeFrom(this);
+            MessageHelper.printMessage("Remove succeed", MessageType.PROMPT);
+        } catch (NumberFormatException e) {
+            MessageHelper.printMessage("Invalid input", MessageType.WARNING);
+        }
+        listEquipment();
     }
 
     /**
@@ -229,4 +246,14 @@ public class Player {
     public void setStorage(Storage storage) {
         this.storage = storage;
     }
+
+    //test code
+//    public static void main(String[] args) {
+//        Player player = new Player("test");
+//        player.printAttributes();
+//        player.equip(EquipmentRepository.INSTANCE.getEquipment("sword"));
+//        player.printAttributes();
+//        player.removeEquipment();
+//        player.printAttributes();
+//    }
 }

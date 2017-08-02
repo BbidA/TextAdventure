@@ -36,7 +36,7 @@ public class MessageHelper {
      */
     public static void printMenu(List menuItems) {
         for (int i = 0; i < menuItems.size(); i++) {
-            System.out.printf("[%d] " + menuItems.get(i) + System.lineSeparator(), i);
+            System.out.printf("[%d] " + menuItems.get(i).toString() + System.lineSeparator(), i);
         }
     }
 

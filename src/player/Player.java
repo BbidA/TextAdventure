@@ -6,7 +6,6 @@ import io.MessageHelper;
 import io.MessageType;
 import item.Equipment;
 import item.EquipmentLocation;
-import item.EquipmentRepository;
 import item.Storage;
 
 import java.io.File;
@@ -58,7 +57,7 @@ public class Player {
         defence = DEFENCE_INIT_VALUE + random.nextInt(ATTRIBUTE_UP_VARIATION_RANGE);
 
         equipments = new HashMap<>();
-        storage = new Storage();
+        storage = new Storage(this);
 
         //initialize the gson to serialize the Equipment properly
     }

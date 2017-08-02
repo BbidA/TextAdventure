@@ -1,6 +1,5 @@
 package player;
 
-import item.EquipmentRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +7,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created on 2017/8/2.

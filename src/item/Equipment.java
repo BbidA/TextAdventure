@@ -7,7 +7,7 @@ import player.Player;
  * Description: This class used the Builder Pattern to create the Equipment object(immutable).
  * @author Liao
  */
-public class Equipment {
+public class Equipment implements Item {
     private static final String LINE_SEP = System.lineSeparator();
     // Required parameters
     private final String name;
@@ -52,12 +52,13 @@ public class Equipment {
         player.setMagicValueMax(player.getMagicValueMax() - addMagic);
     }
 
-    public String getName() {
-        return name;
-    }
-
     public EquipmentLocation getLocation() {
         return location;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -69,6 +70,11 @@ public class Equipment {
                 + (addDefence == 0 ? "" : "Defence: " + addDefence + LINE_SEP)
                 + (addHealth == 0 ? "" : "Health: " + addHealth + LINE_SEP)
                 + (addMagic == 0 ? "" : "Magic: " + addMagic + LINE_SEP);
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     public static class Builder {

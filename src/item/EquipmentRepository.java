@@ -5,7 +5,6 @@ import com.google.gson.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -44,6 +43,7 @@ public enum EquipmentRepository {
      * @return null if there's no such equipment, or will return the equipment object expected.
      */
     public Equipment getEquipment(String equipmentName) {
+        equipmentName = equipmentName.toLowerCase();
         JsonParser parser = new JsonParser();
         try (Reader reader = new FileReader(FILE_PATH)) {
             JsonObject jsonObject = parser.parse(reader).getAsJsonObject();

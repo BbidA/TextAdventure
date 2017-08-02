@@ -1,9 +1,11 @@
 package item;
 
 /**
- * Created on 2017/7/28.
- * Description:
+ * Created on 2017/8/2.
+ * Description: The interface of all items which can be stored in the Storage.
  * @author Liao
  */
-public class Item {
+public interface Item {
+    String getName();
+    String getDescription();
 }

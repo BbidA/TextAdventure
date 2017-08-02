@@ -56,7 +56,6 @@ public class Game {
     private static boolean nameDuplicate(String name) {
         String[] files = new File("json/profiles").list();
         for (String file : files) {
-//            System.out.println(file);
             if (file.equals(name)) {
                 return true;
             }
@@ -76,9 +75,8 @@ public class Game {
             return false;
         } else {
             MessageHelper.printMenu(Arrays.asList(files));
-            int optNum = 0;
+            int optNum;
             try {
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                 String option = MessageHelper.take();
                 optNum = Integer.parseInt(option);
             } catch (NumberFormatException e) {
@@ -86,8 +84,7 @@ public class Game {
             }
 
             Optional<Player> tmpOptional = Optional.ofNullable(PlayerManager.loadPlayer(files[optNum]));
-            Game game = tmpOptional.map(Game::new).get();
-            game.startGame();
+            tmpOptional.map(Game::new).ifPresent(Game::startGame);
             return tmpOptional.isPresent();
         }
     }
@@ -98,20 +95,6 @@ public class Game {
     private void startGame() {
         MessageHelper.printPlainMsg("Welcome to the adventure world " + player.getName(), MessageType.PLAIN);
         player.printAttributes();
-//        try {
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//            String userInput;
-//            while ((userInput = reader.readLine()) != null) {
-//                if (userInput.equals("exit")) {
-//                    MessageHelper.printPlainMsg("Bye ", MessageType.PLAIN);
-//                    //save user status and exit
-//                    exit();
-//                }
-//                parser.parseCommand(userInput);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         String userInput;
         while (true) {
             userInput = MessageHelper.take();
@@ -120,6 +103,8 @@ public class Game {
                 //save user status and exit
                 exit();
                 break;
+            } else if (userInput.equals("list")) {
+                player.listEquipment();
             } else {
                 player.equip(EquipmentRepository.INSTANCE.getEquipment("sword"));
                 parser.parseCommand(userInput);

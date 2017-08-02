@@ -1,6 +1,7 @@
 package player;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import io.MessageHelper;
 import io.MessageType;
 import item.Equipment;
@@ -126,11 +127,28 @@ public class Player {
 
     /**
      * Equip an equipment and change the attribute, then update the equipments Map.
-     * TODO finish this method
+     * TODO finish this method in the condition that a equipment was replaced by another
      */
     public void equip(Equipment target) {
         target.equipTo(this);
         equipments.put(target.getLocation(), target);
+    }
+
+    /**
+     * Print equipment list. If the equipment in some place is empty, it'll be denoted by "nothing".
+     */
+    public void listEquipment() {
+        StringBuilder equipmentInfo = new StringBuilder("Equipment:" + LINE_SEP);
+//        for (Map.Entry<EquipmentLocation, Equipment> entry : equipments.entrySet()) {
+//            equipmentInfo.append(entry.getKey().toString()).append(" : ").append(entry.getValue().getName()).append(LINE_SEP);
+//        }
+        for (EquipmentLocation location : EquipmentLocation.values()) {
+            Equipment tmp = equipments.get(location);
+            equipmentInfo.append(location.toString()).append(" : ")
+                    .append(tmp == null ? "nothing" : tmp.getName())
+                    .append(LINE_SEP);
+        }
+        MessageHelper.printPlainMsg(equipmentInfo.toString(), MessageType.PLAIN);
     }
 
     public String getName() {

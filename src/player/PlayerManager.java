@@ -1,11 +1,17 @@
 package player;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import item.Equipment;
+import item.EquipmentLocation;
+import item.EquipmentRepository;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created on 2017/7/22.
@@ -37,6 +43,16 @@ public class PlayerManager {
             player.setDefence(jsonObject.get("defence").getAsInt());
             //TODO load equipment and storage
 
+            //load equipments
+            JsonObject equipmentObj = jsonObject.get("equipments").getAsJsonObject();
+            Map<EquipmentLocation, Equipment> equipments = new HashMap<>();
+            for (Map.Entry<String, JsonElement> entry : equipmentObj.entrySet()) {
+                String tmp = entry.getValue().getAsString();
+                if (!tmp.equals("nothing"))
+                    equipments.put(EquipmentLocation.valueOf(entry.getKey()),
+                            EquipmentRepository.INSTANCE.getEquipment(tmp.toLowerCase()));
+            }
+            player.setEquipments(equipments);
 
             return player;
         } catch (IOException e) {

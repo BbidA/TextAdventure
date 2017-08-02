@@ -5,6 +5,8 @@ import com.google.gson.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * Created on 2017/7/30.
@@ -45,7 +47,10 @@ public enum EquipmentRepository {
         JsonParser parser = new JsonParser();
         try (Reader reader = new FileReader(FILE_PATH)) {
             JsonObject jsonObject = parser.parse(reader).getAsJsonObject();
-            return gson.fromJson(jsonObject.get(equipmentName), Equipment.class);
+            JsonElement jsonElement = jsonObject.get(equipmentName);
+            return Optional.ofNullable(jsonElement)
+                    .map(jsonElement1 -> gson.fromJson(jsonElement1, Equipment.class))
+                    .orElse(null);
         } catch (IOException e) {
             e.printStackTrace();
         }

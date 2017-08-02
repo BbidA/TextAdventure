@@ -145,7 +145,7 @@ public class Player {
             return;
         }
         MessageHelper.printMenu(equipmentLocations);
-        MessageHelper.printMessage("Enter the part which you want to remove: ", MessageType.PROMPT);
+        MessageHelper.printMessage("Enter the number of the part which you want to remove: ", MessageType.PROMPT);
         String userEntered = MessageHelper.take();
         try {
             int optNum = Integer.parseInt(userEntered);

@@ -24,4 +24,6 @@ public class Storage {
         consumableBag = new HashMap<>(INITIAL_SIZE);
         battleBag = new HashMap<>(10);
     }
+
+    // TODO: 2017/8/3 The method to consume items of bags.
 }

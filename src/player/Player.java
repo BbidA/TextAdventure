@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.MessageHelper;
 import io.MessageType;
+import item.Consumable;
 import item.Equipment;
 import item.EquipmentLocation;
 import item.Storage;
+import item.repository.ConsumableRepository;
 import item.repository.EquipmentRepository;
 
 import java.io.File;
@@ -290,9 +292,9 @@ public class Player {
     public static void main(String[] args) {
         Player player = new Player("test");
         player.printAttributes();
-        player.equip(EquipmentRepository.INSTANCE.getEquipment("sword"));
-        player.printAttributes();
-        player.removeEquipment();
+        Consumable consumable = ConsumableRepository.INSTANCE.getConsumable("health potion(small)");
+        consumable.consume(player);
+        System.out.println(consumable);
         player.printAttributes();
     }
 }

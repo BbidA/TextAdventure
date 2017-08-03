@@ -7,17 +7,21 @@ import player.Player;
  * Description: Items that can only be consumed in a battle.
  * @author Liao
  */
-public class BattleComsumable implements Consumable {
+public class BattleConsumable implements Consumable {
     private final int attackUp;
     private final int defenceUp;
     private final Consumable consumable;
 
-    public BattleComsumable(int attackUp, int defenceUp, Consumable consumable) {
+    public BattleConsumable(int attackUp, int defenceUp, Consumable consumable) {
         this.attackUp = attackUp;
         this.defenceUp = defenceUp;
         this.consumable = consumable;
     }
 
+    @Override
+    public String toString() {
+        return consumable.toString();
+    }
 
     @Override
     public String getName() {

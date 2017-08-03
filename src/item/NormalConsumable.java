@@ -8,6 +8,8 @@ import player.Player;
  * @author Liao
  */
 public class NormalConsumable implements Consumable {
+    private static final String LINE_SEP = System.lineSeparator();
+
     private final String name;
     private final String description;
     private final boolean inBattle;
@@ -40,6 +42,11 @@ public class NormalConsumable implements Consumable {
         return description;
     }
 
+    @Override
+    public String toString() {
+        return name + LINE_SEP
+                + "Description: " + description;
+    }
 
     @Override
     public void consume(Player player) {
@@ -48,6 +55,10 @@ public class NormalConsumable implements Consumable {
         player.setMagicValueMax(player.getMagicValueMax() + magicMaxUp);
         player.setLifeValueMax(player.getLifeValueMax() + healthMaxUp);
         player.expHelper.expUp(expUp);
+    }
+
+    public boolean usedInBattle() {
+        return inBattle;
     }
 
     /**

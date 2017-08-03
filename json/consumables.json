@@ -3,10 +3,11 @@
     "name": "Health Potion(small)",
     "description": "Increase small points of health",
     "inBattle": true,
-    "expUp": 0,
+    "expUp": 55,
     "healthUp": 100,
-    "healthMaxUp": 0,
+    "healthMaxUp": 100,
     "magicUp": 0,
-    "magicMaxUp": 0
+    "magicMaxUp": 0,
+    "attackUp": 20
   }
 }

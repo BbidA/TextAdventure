@@ -1,7 +1,7 @@
 package item.repository;
 
 import com.google.gson.*;
-import item.BattleComsumable;
+import item.BattleConsumable;
 import item.Consumable;
 import item.NormalConsumable;
 
@@ -37,7 +37,7 @@ public enum ConsumableRepository {
             if (inBattle) {
                 int attackUp = Optional.ofNullable(jsonObject.get("attackUp")).map(JsonElement::getAsInt).orElse(0);
                 int defenceUp = Optional.ofNullable(jsonObject.get("defenceUp")).map(JsonElement::getAsInt).orElse(0);
-                return new BattleComsumable(attackUp, defenceUp, consumable);
+                return new BattleConsumable(attackUp, defenceUp, consumable);
             } else
                 return consumable;
         });
@@ -45,17 +45,6 @@ public enum ConsumableRepository {
     }
 
     public Consumable getConsumable(String name) {
-//        name = name.toLowerCase();
-//        JsonParser parser = new JsonParser();
-//        try (Reader reader = new FileReader(FILE_PATH)) {
-//            JsonElement element = parser.parse(reader).getAsJsonObject().get(name);
-//            return Optional.ofNullable(element)
-//                    .map(jsonElement -> gson.fromJson(jsonElement, Consumable.class))
-//                    .orElse(null);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
         return RepositoryHelper.get(name, FILE_PATH, gson, Consumable.class);
     }
 }

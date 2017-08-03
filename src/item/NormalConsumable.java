@@ -4,12 +4,13 @@ import player.Player;
 
 /**
  * Created on 2017/8/2.
- * Description: Items that can be consumed in normal condition.
+ * Description: Items that can be consumed in normal condition.(immutable)
  * @author Liao
  */
 public class NormalConsumable implements Consumable {
     private final String name;
     private final String description;
+    private final boolean inBattle;
 
     private final int expUp;
     private final int healthUp;
@@ -20,6 +21,8 @@ public class NormalConsumable implements Consumable {
     private NormalConsumable(Builder builder) {
         name = builder.name;
         description = builder.description;
+        inBattle = builder.inBattle;
+
         expUp = builder.expUp;
         healthMaxUp = builder.healthMaxUp;
         healthUp = builder.healthUp;
@@ -47,10 +50,14 @@ public class NormalConsumable implements Consumable {
         player.expHelper.expUp(expUp);
     }
 
+    /**
+     * Builder pattern
+     */
     public static class Builder {
         //Required parameters
         private final String name;
         private final String description;
+        private final boolean inBattle;
 
         //Optional parameters
         private int expUp = 0;
@@ -59,9 +66,10 @@ public class NormalConsumable implements Consumable {
         private int healthMaxUp = 0;
         private int magicMaxUp = 0;
 
-        public Builder(String name, String description) {
+        public Builder(String name, String description, boolean inBattle) {
             this.name = name;
             this.description = description;
+            this.inBattle = inBattle;
         }
 
         public Builder expUp(int val) {
@@ -88,7 +96,6 @@ public class NormalConsumable implements Consumable {
             this.magicMaxUp = val;
             return this;
         }
-
 
         public NormalConsumable build() {
             return new NormalConsumable(this);

@@ -15,11 +15,13 @@ public class Storage {
 
     private Map<Equipment, Integer> equipmentBag;
     private Map<Consumable, Integer> consumableBag;
+    private Map<Consumable, Integer> battleBag;
     private Player player;
 
     public Storage(Player player) {
         this.player = player;
         equipmentBag = new HashMap<>(INITIAL_SIZE);
         consumableBag = new HashMap<>(INITIAL_SIZE);
+        battleBag = new HashMap<>(10);
     }
 }

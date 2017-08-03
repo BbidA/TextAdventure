@@ -9,3 +9,4 @@
 | time   | description |
 | :----: | ------------|
 | 8/2    | `Player` 类集成了过多职责，应该创建个 `EquipmentHelper` 之类的辅助类来分管各项功能，而不是将各种细小功能集成在 `Player` 类中，在 `Storage` 的设计时将会尝试改进 |
+| 8/3    | 突然想到 `Consumable` 等一系列的类可以使用装饰器模式 |

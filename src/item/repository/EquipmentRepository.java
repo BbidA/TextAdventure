@@ -1,11 +1,11 @@
-package item;
+package item.repository;
 
-import com.google.gson.*;
-
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.util.Optional;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonObject;
+import item.Equipment;
+import item.EquipmentLocation;
 
 /**
  * Created on 2017/7/30.
@@ -43,18 +43,19 @@ public enum EquipmentRepository {
      * @return null if there's no such equipment, or will return the equipment object expected.
      */
     public Equipment getEquipment(String equipmentName) {
-        equipmentName = equipmentName.toLowerCase();
-        JsonParser parser = new JsonParser();
-        try (Reader reader = new FileReader(FILE_PATH)) {
-            JsonObject jsonObject = parser.parse(reader).getAsJsonObject();
-            JsonElement jsonElement = jsonObject.get(equipmentName);
-            return Optional.ofNullable(jsonElement)
-                    .map(jsonElement1 -> gson.fromJson(jsonElement1, Equipment.class))
-                    .orElse(null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+//        equipmentName = equipmentName.toLowerCase();
+//        JsonParser parser = new JsonParser();
+//        try (Reader reader = new FileReader(FILE_PATH)) {
+//            JsonObject jsonObject = parser.parse(reader).getAsJsonObject();
+//            JsonElement jsonElement = jsonObject.get(equipmentName);
+//            return Optional.ofNullable(jsonElement)
+//                    .map(jsonElement1 -> gson.fromJson(jsonElement1, Equipment.class))
+//                    .orElse(null);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+        return RepositoryHelper.get(equipmentName, FILE_PATH, gson, Equipment.class);
     }
 }

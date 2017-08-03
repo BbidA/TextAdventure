@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import item.Equipment;
 import item.EquipmentLocation;
-import item.EquipmentRepository;
+import item.repository.EquipmentRepository;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class PlayerManager {
             player.setMagicValue(jsonObject.get("magicValue").getAsInt());
             player.setMagicValueMax(jsonObject.get("magicValueMax").getAsInt());
             player.setLevel(jsonObject.get("level").getAsInt());
-            player.expUp(jsonObject.get("exp").getAsInt());
+            player.setExp(jsonObject.get("exp").getAsInt());
             player.setExpMax(jsonObject.get("expMax").getAsInt());
             player.setAttack(jsonObject.get("attack").getAsInt());
             player.setDefence(jsonObject.get("defence").getAsInt());

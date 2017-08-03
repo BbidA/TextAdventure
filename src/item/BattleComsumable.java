@@ -8,6 +8,17 @@ import player.Player;
  * @author Liao
  */
 public class BattleComsumable implements Consumable {
+    private final int attackUp;
+    private final int defenceUp;
+    private final Consumable consumable;
+
+    public BattleComsumable(int attackUp, int defenceUp, Consumable consumable) {
+        this.attackUp = attackUp;
+        this.defenceUp = defenceUp;
+        this.consumable = consumable;
+    }
+
+
     @Override
     public String getName() {
         return null;
@@ -20,6 +31,7 @@ public class BattleComsumable implements Consumable {
 
     @Override
     public void consume(Player player) {
-
+        consumable.consume(player);
+        //TODO add attack temporarily
     }
 }

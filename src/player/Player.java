@@ -7,6 +7,7 @@ import io.MessageType;
 import item.Equipment;
 import item.EquipmentLocation;
 import item.Storage;
+import item.repository.EquipmentRepository;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -286,12 +287,12 @@ public class Player {
 
 
     //test code
-//    public static void main(String[] args) {
-//        Player player = new Player("test");
-//        player.printAttributes();
-//        player.equip(EquipmentRepository.INSTANCE.getEquipment("sword"));
-//        player.printAttributes();
-//        player.removeEquipment();
-//        player.printAttributes();
-//    }
+    public static void main(String[] args) {
+        Player player = new Player("test");
+        player.printAttributes();
+        player.equip(EquipmentRepository.INSTANCE.getEquipment("sword"));
+        player.printAttributes();
+        player.removeEquipment();
+        player.printAttributes();
+    }
 }

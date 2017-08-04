@@ -8,5 +8,6 @@ package io;
 public enum MessageType {
     PLAIN,
     WARNING,
-    PROMPT
+    PROMPT,
+    INFO
 }

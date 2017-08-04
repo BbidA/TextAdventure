@@ -69,7 +69,6 @@ public class Game {
      * List the files and then load a game according to the user's input.
      */
     public static boolean loadGame() {
-        //TODO to be completed
         File file = new File("json/profiles");
         String[] files = Optional.ofNullable(file.list()).orElse(new String[0]);
         if (files.length == 0) {
@@ -85,7 +84,13 @@ public class Game {
                     MessageHelper.printExitMsg();
                     System.exit(0);
                 }
+
                 optNum = Integer.parseInt(option);
+                // Check bounds
+                if (optNum >= files.length || optNum < 0) {
+                    MessageHelper.printMessage("Out of Bounds", MessageType.WARNING);
+                    return false;
+                }
             } catch (NumberFormatException e) {
                 MessageHelper.printMessage("Invalid Input", MessageType.WARNING);
                 return false;

@@ -1,7 +1,8 @@
-package player;
+package player.helper;
 
 import io.MessageHelper;
 import io.MessageType;
+import player.Player;
 
 import java.util.Random;
 
@@ -21,7 +22,7 @@ public class ExpHelper {
 
     private Player player;
 
-    ExpHelper(Player player) {
+    public ExpHelper(Player player) {
         this.player = player;
     }
 

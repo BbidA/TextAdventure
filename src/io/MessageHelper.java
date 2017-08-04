@@ -3,7 +3,9 @@ package io;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Created on 2017/7/21.
@@ -22,7 +24,12 @@ public class MessageHelper {
      * @param type the type of this message (which may be presented by different color in the future).
      */
     public static void printMessage(String msg, MessageType type) {
-        System.out.println(msg);
+        if (type == MessageType.INFO) {
+            System.out.println(SEP_LINE);
+            System.out.println(msg);
+            System.out.println(SEP_LINE + System.lineSeparator());
+        } else
+            System.out.println(msg);
     }
 
     /**
@@ -37,14 +44,35 @@ public class MessageHelper {
      * @param menuItems the items of this menu
      */
     public static void printMenu(List menuItems) {
-        System.out.println("Please Choose");
         System.out.println(SEP_LINE);
         for (int i = 0; i < menuItems.size(); i++) {
             System.out.printf("[%d] " + menuItems.get(i).toString() + System.lineSeparator(), i);
         }
         System.out.println(SEP_LINE);
+        System.out.println();
     }
 
+    /**
+     * List information of the given collection's items in the format you specified.
+     * @param collection collection you want to list
+     * @param function   translate the item to some kind of presentation with string
+     * @param addition   the additive information about the item
+     * @param <T>        the type of the item in the collection
+     */
+    public static <T> void list(Collection<? extends T> collection, Function<T, String> function, Function<T, String> addition) {
+        System.out.println(SEP_LINE);
+        if (collection.isEmpty())
+            System.out.println("Empty");
+        else
+            collection.forEach(e -> System.out.println(function.apply(e) + addition.apply(e)));
+        System.out.println(SEP_LINE);
+        System.out.println();
+    }
+
+    /**
+     * Get user's input from the console.
+     * @return user's input
+     */
     public static String take() {
         String message = "";
         try {
@@ -55,7 +83,14 @@ public class MessageHelper {
         return message;
     }
 
-    public static void main(String[] args) {
-
+    public static int getNumberInput() {
+        try {
+            return Integer.parseInt(reader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            printMessage("Invalid Input", MessageType.WARNING);
+        }
+        return -1;
     }
 }

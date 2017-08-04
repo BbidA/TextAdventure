@@ -25,17 +25,22 @@ public class BattleConsumable implements Consumable {
 
     @Override
     public String getName() {
-        return null;
+        return consumable.getName();
     }
 
     @Override
     public String getDescription() {
-        return null;
+        return consumable.getDescription();
     }
 
     @Override
     public void consume(Player player) {
         consumable.consume(player);
         //TODO add attack temporarily
+    }
+
+    @Override
+    public boolean usedInBattle() {
+        return consumable.usedInBattle();
     }
 }

@@ -63,7 +63,7 @@ public class Equipment {
 
     @Override
     public String toString() {
-        return "Equipment " + name + LINE_SEP
+        return name + LINE_SEP
                 + MessageHelper.SEP_LINE + LINE_SEP
                 + "Description: " + description + LINE_SEP
                 + "Equipment Location: " + location + LINE_SEP

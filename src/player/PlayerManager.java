@@ -41,7 +41,6 @@ public class PlayerManager {
             player.setExpMax(jsonObject.get("expMax").getAsInt());
             player.setAttack(jsonObject.get("attack").getAsInt());
             player.setDefence(jsonObject.get("defence").getAsInt());
-            //TODO load equipment and storage
 
             //load equipments
             JsonObject equipmentObj = jsonObject.get("equipments").getAsJsonObject();
@@ -53,6 +52,8 @@ public class PlayerManager {
                             EquipmentRepository.INSTANCE.getEquipment(tmp.toLowerCase()));
             }
             player.setEquipments(equipments);
+
+            // TODO: 2017/8/4 load storage.
 
             return player;
         } catch (IOException e) {

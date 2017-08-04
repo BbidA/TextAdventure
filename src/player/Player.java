@@ -10,6 +10,8 @@ import item.EquipmentLocation;
 import item.Storage;
 import item.repository.ConsumableRepository;
 import item.repository.EquipmentRepository;
+import player.helper.BattleHelper;
+import player.helper.ExpHelper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -40,8 +42,9 @@ public class Player {
 
     private String name;
     private Map<EquipmentLocation, Equipment> equipments;
-    private Storage storage; //store items
+    public Storage storage; //store items
     public final ExpHelper expHelper;
+    public final BattleHelper battleHelper;
 
     /**
      * Create a new player
@@ -65,6 +68,7 @@ public class Player {
         equipments = new HashMap<>();
         storage = new Storage(this);
         expHelper = new ExpHelper(this);
+        battleHelper = new BattleHelper(this);
     }
 
 
@@ -135,9 +139,9 @@ public class Player {
     /**
      * Equip an equipment and change the attribute, then update the equipments Map.
      */
-    public void equip(Equipment target) {
+    public Equipment equip(Equipment target) {
         target.equipTo(this);
-        equipments.put(target.getLocation(), target);
+        return equipments.put(target.getLocation(), target);
         // TODO: 2017/8/4 put the old equipment to the storage.
     }
 
@@ -294,10 +298,13 @@ public class Player {
     //test code
     public static void main(String[] args) {
         Player player = new Player("test");
-        player.printAttributes();
+//        player.printAttributes();
         Consumable consumable = ConsumableRepository.INSTANCE.getConsumable("health potion(small)");
-        consumable.consume(player);
-        System.out.println(consumable);
+//        consumable.consume(player);
+        player.storage.addConsumables(consumable, 1);
+        player.storage.addEquipment(EquipmentRepository.INSTANCE.getEquipment("sword"));
+        player.storage.queryStorage();
+//        System.out.println(consumable);
         player.printAttributes();
     }
 }

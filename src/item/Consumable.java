@@ -19,4 +19,6 @@ public interface Consumable {
      * @param player the Player who will consume this item.
      */
     void consume(Player player);
+
+    boolean usedInBattle();
 }

@@ -1,5 +1,6 @@
 package item;
 
+import io.MessageHelper;
 import player.Player;
 
 /**
@@ -62,13 +63,15 @@ public class Equipment {
 
     @Override
     public String toString() {
-        return name + LINE_SEP
+        return "Equipment " + name + LINE_SEP
+                + MessageHelper.SEP_LINE + LINE_SEP
                 + "Description: " + description + LINE_SEP
                 + "Equipment Location: " + location + LINE_SEP
                 + (addAttack == 0 ? "" : "Attack: " + addAttack + LINE_SEP)
                 + (addDefence == 0 ? "" : "Defence: " + addDefence + LINE_SEP)
                 + (addHealth == 0 ? "" : "Health: " + addHealth + LINE_SEP)
-                + (addMagic == 0 ? "" : "Magic: " + addMagic + LINE_SEP);
+                + (addMagic == 0 ? "" : "Magic: " + addMagic + LINE_SEP)
+                + MessageHelper.SEP_LINE + LINE_SEP;
     }
 
     public String getDescription() {

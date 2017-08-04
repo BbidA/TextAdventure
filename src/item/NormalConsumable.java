@@ -45,7 +45,7 @@ public class NormalConsumable implements Consumable {
     @Override
     public String toString() {
         return name + LINE_SEP
-                + "Description: " + description;
+                + "Description: " + description + LINE_SEP;
     }
 
     @Override

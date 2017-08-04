@@ -112,12 +112,15 @@ public class Player {
      * Display the player's attributes
      */
     public void printAttributes() {
-        String attributes = "life: " + lifeValue + "/" + lifeValueMax + LINE_SEP
+        String attributes = name + LINE_SEP
+                + MessageHelper.SEP_LINE + LINE_SEP
+                + "life: " + lifeValue + "/" + lifeValueMax + LINE_SEP
                 + "magic: " + magicValue + "/" + magicValueMax + LINE_SEP
                 + "level: " + level + LINE_SEP
                 + "exp: " + exp + "/" + expMax + LINE_SEP
                 + "attack: " + attack + LINE_SEP
-                + "defence: " + defence;
+                + "defence: " + defence + LINE_SEP
+                + MessageHelper.SEP_LINE + LINE_SEP;
         MessageHelper.printMessage(attributes, MessageType.PLAIN);
     }
 
@@ -131,11 +134,11 @@ public class Player {
 
     /**
      * Equip an equipment and change the attribute, then update the equipments Map.
-     * TODO finish this method in the condition that a equipment was replaced by another
      */
     public void equip(Equipment target) {
         target.equipTo(this);
         equipments.put(target.getLocation(), target);
+        // TODO: 2017/8/4 put the old equipment to the storage.
     }
 
     /**

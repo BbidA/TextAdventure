@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class MessageHelper {
 
+    public static final String SEP_LINE = "====================";
+
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     /**
@@ -35,9 +37,12 @@ public class MessageHelper {
      * @param menuItems the items of this menu
      */
     public static void printMenu(List menuItems) {
+        System.out.println("Please Choose");
+        System.out.println(SEP_LINE);
         for (int i = 0; i < menuItems.size(); i++) {
             System.out.printf("[%d] " + menuItems.get(i).toString() + System.lineSeparator(), i);
         }
+        System.out.println(SEP_LINE);
     }
 
     public static String take() {

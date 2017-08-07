@@ -14,8 +14,9 @@ import java.util.*;
  * @author Liao
  */
 public class Storage {
-    // TODO: 2017/8/4 add the way to check limit of these bags and add comments. And the way to save/load this class.
+    // TODO: 2017/8/4 add comments. And the way to save/load this class.
     private static final int INITIAL_SIZE = 64;
+    private static final int BATTLE_BAG_SIZE = 32;
     private static final List<String> QUERY_MENU = Arrays.asList("Equipment", "Consumables");
 
     private List<String> equipmentQueryMenu;
@@ -52,32 +53,45 @@ public class Storage {
     }
 
     /**
-     * Add consumables to the storage. This method will distinguish the consumable's type automatically.
+     * Add consumables to the storage if the relevant bag is not full. This method will distinguish the consumable's type automatically.
      * @param consumable item you want to add.
      * @param quantity   quantity of the item.
      */
     public void addConsumables(Consumable consumable, int quantity) {
         Integer preNum = consumableBag.get(consumable);
         int currentNum = (preNum == null ? quantity : preNum + quantity);
-        if (consumable.usedInBattle())
-            battleBag.put(consumable, currentNum);
-        else
-            consumableBag.put(consumable, preNum == null ? quantity : preNum + quantity);
+        if (consumable.usedInBattle()) {
+            // Check whether the bag is full.
+            if (battleBag.size() == BATTLE_BAG_SIZE)
+                MessageHelper.printMessage("The battle bag is full.", MessageType.WARNING);
+            else battleBag.put(consumable, currentNum);
+        } else {
+            // Check full
+            if (consumableBag.size() == INITIAL_SIZE)
+                MessageHelper.printMessage("The normal consumables bag is full.", MessageType.WARNING);
+            else consumableBag.put(consumable, preNum == null ? quantity : preNum + quantity);
+        }
     }
 
+    /**
+     * Default version of addConsumables which add only one item each time.
+     * @param consumable item you want to add.
+     */
     public void addConsumables(Consumable consumable) {
         addConsumables(consumable, 1);
     }
 
     /**
-     * Add equipment to the storage.
-     * @param equipment
+     * Add equipment to the storage if the bag is not full..
+     * @param equipment equipment you want to add.
      */
     public void addEquipment(Equipment equipment) {
-        equipmentBag.add(equipment);
+        if (equipmentBag.size() == INITIAL_SIZE)
+            MessageHelper.printMessage("The equipment bag is full.", MessageType.WARNING);
+        else equipmentBag.add(equipment);
     }
 
-    // TODO: 2017/8/3 The method to consume items of bags.
+    // TODO: 2017/8/3 The method to consume items of battle bags.
 
     /**
      * List the name of the equipments and its relevant description.
@@ -149,8 +163,6 @@ public class Storage {
                 break;
         }
     }
-
-    // TODO: 2017/8/4 complete this method
 
     /**
      * Query the normal consumables bag. It will return if the bag is empty.

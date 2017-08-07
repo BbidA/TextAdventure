@@ -83,6 +83,10 @@ public class MessageHelper {
         return message;
     }
 
+    /**
+     * Get a numerical input from the console. If it's not a number, it'll print warning message.
+     * @return
+     */
     public static int getNumberInput() {
         try {
             return Integer.parseInt(reader.readLine());

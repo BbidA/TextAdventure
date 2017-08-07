@@ -9,5 +9,16 @@
     "magicUp": 0,
     "magicMaxUp": 0,
     "attackUp": 20
+  },
+
+  "bread": {
+    "name": "Bread",
+    "description": "Increase small points of health",
+    "inBattle": false,
+    "expUp": 0,
+    "healthUp": 50,
+    "healthMaxUp": 0,
+    "magicUp": 0,
+    "magicMaxUp": 0
   }
 }

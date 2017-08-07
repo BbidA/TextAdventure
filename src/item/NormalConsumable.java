@@ -55,6 +55,7 @@ public class NormalConsumable implements Consumable {
         player.setMagicValueMax(player.getMagicValueMax() + magicMaxUp);
         player.setLifeValueMax(player.getLifeValueMax() + healthMaxUp);
         player.expHelper.expUp(expUp);
+        player.printAttributes();
     }
 
     public boolean usedInBattle() {

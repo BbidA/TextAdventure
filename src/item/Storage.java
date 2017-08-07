@@ -14,12 +14,12 @@ import java.util.*;
  * @author Liao
  */
 public class Storage {
-    // TODO: 2017/8/4 add the way to check limit of these bags and add comments.
+    // TODO: 2017/8/4 add the way to check limit of these bags and add comments. And the way to save/load this class.
     private static final int INITIAL_SIZE = 64;
     private static final List<String> QUERY_MENU = Arrays.asList("Equipment", "Consumables");
 
     private List<String> equipmentQueryMenu;
-    private List<String> consumableQuetyMenu;
+    private List<String> consumableQueryMenu;
     private List<Equipment> equipmentBag;
     private Map<Consumable, Integer> consumableBag;
     private Map<Consumable, Integer> battleBag;
@@ -32,7 +32,7 @@ public class Storage {
         battleBag = new HashMap<>(10);
         // Initialize menus
         equipmentQueryMenu = Arrays.asList("exit", "details", "equip");
-        consumableQuetyMenu = Arrays.asList("exit", "details", "consume");
+        consumableQueryMenu = Arrays.asList("exit", "details", "consume");
     }
 
     public void queryStorage() {
@@ -48,7 +48,7 @@ public class Storage {
         if (optNum == 0)
             queryEquipment();
         else
-            queryConsumables();
+            queryNormalConsumables();
     }
 
     /**
@@ -63,6 +63,10 @@ public class Storage {
             battleBag.put(consumable, currentNum);
         else
             consumableBag.put(consumable, preNum == null ? quantity : preNum + quantity);
+    }
+
+    public void addConsumables(Consumable consumable) {
+        addConsumables(consumable, 1);
     }
 
     /**
@@ -102,54 +106,103 @@ public class Storage {
         listEquipment();
         MessageHelper.printMessage("Do you want to manage your equipment bag? Y/N", MessageType.PROMPT);
         String userInput = MessageHelper.take().toUpperCase();
-        if (userInput.equals("Y")) {
-            MessageHelper.printMenu(equipmentBag);
-            // Choose an action
-            MessageHelper.printMessage("Choose Action", MessageType.PROMPT);
-            MessageHelper.printMenu(equipmentQueryMenu);
-            int optNum = MessageHelper.getNumberInput();
-            for (; optNum != 0; optNum = MessageHelper.getNumberInput()) {
-                if (!inBounds(optNum, equipmentQueryMenu)) {
-                    // Check bounds
-                    MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
-                } else {
-                    MessageHelper.printMessage("Choose a equipment", MessageType.PROMPT);
-                    int num = MessageHelper.getNumberInput();
-                    if (optNum == 1) {
-                        // Detail
-                        if (inBounds(num, equipmentBag)) {
-                            MessageHelper.printMessage(equipmentBag.get(num).toString(), MessageType.INFO);
-                        } else MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
-                    } else if (optNum == 2) {
-                        // Equip
-                        if (inBounds(num, equipmentBag)) {
-                            Equipment previous = player.equip(equipmentBag.remove(num));
-                            MessageHelper.printMessage("Equip succeed!", MessageType.PROMPT);
-                            // Store the previous equipment to the storage.
-                            Optional.ofNullable(previous).ifPresent(equipmentBag::add);
-                            MessageHelper.printMessage("Current Bag", MessageType.PLAIN);
-                            MessageHelper.printMenu(equipmentBag);
-                        } else MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
+        switch (userInput) {
+            case "Y":
+                MessageHelper.printMenu(equipmentBag);
+                // Choose an action
+                MessageHelper.printMessage("Choose Action", MessageType.PROMPT);
+                MessageHelper.printMenu(equipmentQueryMenu);
+                int optNum = MessageHelper.getNumberInput();
+                for (; optNum != 0; optNum = MessageHelper.getNumberInput()) {
+                    if (!inBounds(optNum, equipmentQueryMenu)) {
+                        // Check bounds
+                        MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
+                    } else {
+                        MessageHelper.printMessage("Choose a equipment", MessageType.PROMPT);
+                        int num = MessageHelper.getNumberInput();
+                        if (optNum == 1) {
+                            // Detail
+                            if (inBounds(num, equipmentBag)) {
+                                MessageHelper.printMessage(equipmentBag.get(num).toString(), MessageType.INFO);
+                            } else MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
+                        } else if (optNum == 2) {
+                            // Equip
+                            if (inBounds(num, equipmentBag)) {
+                                Equipment previous = player.equip(equipmentBag.remove(num));
+                                MessageHelper.printMessage("Equip succeed!", MessageType.PROMPT);
+                                // Store the previous equipment to the storage.
+                                Optional.ofNullable(previous).ifPresent(equipmentBag::add);
+                                MessageHelper.printMessage("Current Bag", MessageType.PLAIN);
+                                MessageHelper.printMenu(equipmentBag);
+                            } else MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
+                        }
                     }
+                    MessageHelper.printMessage("Choose an action", MessageType.PROMPT);
                 }
-                MessageHelper.printMessage("Choose an action", MessageType.PROMPT);
-            }
-            MessageHelper.printMessage("Bag exit", MessageType.PROMPT);
-        } else if (userInput.equals("N")) {
-            MessageHelper.printMessage("Bag exit", MessageType.PROMPT);
-        } else {
-            MessageHelper.printMessage("Invalid Input", MessageType.WARNING);
+                MessageHelper.printMessage("Bag exit", MessageType.PROMPT);
+                break;
+            case "N":
+                MessageHelper.printMessage("Bag exit", MessageType.PROMPT);
+                break;
+            default:
+                MessageHelper.printMessage("Invalid Input", MessageType.WARNING);
+                break;
         }
     }
 
     // TODO: 2017/8/4 complete this method
-    public void queryConsumables() {
-        // Check player is whether in a battle.
-        if (player.battleHelper.battleOn()) {
 
-        } else {
-
+    /**
+     * Query the normal consumables bag. It will return if the bag is empty.
+     */
+    public void queryNormalConsumables() {
+        listConsumables();
+        // Check empty
+        if (consumableBag.isEmpty()) {
+            MessageHelper.printMessage("The normal consumables bag is empty. Exit", MessageType.WARNING);
+            return;
         }
+        // Print items menu
+        List<Consumable> tmpList = new ArrayList<>(consumableBag.keySet());
+        // Choose action
+        MessageHelper.printMessage("Choose an action.", MessageType.PROMPT);
+        MessageHelper.printMenu(consumableQueryMenu);
+        for (int optNum = MessageHelper.getNumberInput(); optNum != 0; optNum = MessageHelper.getNumberInput()) {
+            // Check bounds
+            if (!inBounds(optNum, consumableQueryMenu)) {
+                MessageHelper.printMessage("Please enter a valid menu", MessageType.WARNING);
+            } else {
+                // Choose item
+                MessageHelper.printMessage("Choose an item.", MessageType.PROMPT);
+                MessageHelper.printMenu(tmpList);
+                int itemNum = MessageHelper.getNumberInput();
+                // Check bounds
+                if (!inBounds(itemNum, tmpList)) {
+                    MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
+                } else {
+                    if (optNum == 1) {
+                        // Detail
+                        MessageHelper.printMessage(tmpList.get(itemNum).toString(), MessageType.INFO);
+                    } else {
+                        // Consume
+                        Consumable toBeConsumed = tmpList.get(itemNum);
+                        toBeConsumed.consume(player);
+                        // Minus 1 in the bag
+                        if (consumableBag.get(toBeConsumed) == 1) {
+                            consumableBag.remove(toBeConsumed);
+                            tmpList.remove(itemNum);
+                        } else consumableBag.put(toBeConsumed, consumableBag.get(toBeConsumed) - 1);
+                    }
+                }
+            }
+            // Check empty
+            if (tmpList.isEmpty()) {
+                MessageHelper.printMessage("The bag is empty now.", MessageType.WARNING);
+                break;
+            } else MessageHelper.printMessage("Choose an action.", MessageType.PROMPT);
+        }
+        // Print exit message
+        MessageHelper.printMessage("Exit bag.", MessageType.PLAIN);
     }
 
     private boolean inBounds(int optNum, Collection collection) {
@@ -162,9 +215,11 @@ public class Storage {
 
     public static void main(String[] args) {
         Storage storage = new Storage(new Player("test"));
-        storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("health potion(small)"), 1);
+        storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("health potion(small)"));
+        storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("bread"), 2);
         storage.addEquipment(EquipmentRepository.INSTANCE.getEquipment("sword"));
-        storage.listConsumables();
-        storage.listEquipment();
+        storage.queryStorage();
+//        storage.listConsumables();
+//        storage.listEquipment();
     }
 }

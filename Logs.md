@@ -8,6 +8,7 @@
 | 8/3    | 在使用 `GsonBuilder` 创建 `Gson` 对象时，忘记使用 `create()` 方法 |
 | 8/4    | 从控制台获取用户输入的数字用于选择数组的元素时没有进行越界检查 |
 | 8/4    | 没有注意到大小写的转换 |
+| 8/7    | 在 `Storage` 类的 `queryNormalConsumable()` 方法中当 `consumableBag` 中的物品减少时，没有对由它的 `keySet` 组成的 `List` 进行相应的同步处理与检查 |
 
 ### Code Review Checklist
 | Num    | Description |
@@ -16,6 +17,8 @@
 | 2      | 检查对于返回值是 `null` 的方法是否有进行检测 |
 | 3      | 进行字符串的匹配时检查是否需要进行大小写的转换 |
 | 4      | 从控制台获取的数字作用于数组时，检查是否存在越界的可能 |
+| 5      | 当一个容器类的内容来自于另外一个容器类时，检查他们是否需要进行同步 |
+| Last   | 检查控制流程是否正确 |
 
 ### Design Log
 | Time   | Description |

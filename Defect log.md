@@ -1,5 +1,5 @@
 ### Defect Log
-| time   | description |
+| Time   | Description |
 | :----: | ------------|
 | 7/29   | 没有注意到使用 `try-with-resource statement`时会自动关闭 `BufferedReader`，而 `Reader` 关闭后，会自动关闭里面的 `stream`，由此再想从 `System.in` 中输入时，就会抛出 `Stream closed` 异常。
 | 7/30   | `Gson` 中不支持直接对 `{}`中的东西使用方法除了 `getAsJsonObject` 之外的方法，今天踩了这个坑 |
@@ -9,8 +9,16 @@
 | 8/4    | 从控制台获取用户输入的数字用于选择数组的元素时没有进行越界检查 |
 | 8/4    | 没有注意到大小写的转换 |
 
+### Code Review Checklist
+| Num    | Description |
+| :----: | ------------|
+| 1      | 检查所有打开的流是否提早关闭（尤其是 `System.in` ）或是忘记关闭 |
+| 2      | 检查对于返回值是 `null` 的方法是否有进行检测 |
+| 3      | 进行字符串的匹配时检查是否需要进行大小写的转换 |
+| 4      | 从控制台获取的数字作用于数组时，检查是否存在越界的可能 |
+
 ### Design Log
-| time   | description |
+| Time   | Description |
 | :----: | ------------|
 | 8/2    | `Player` 类集成了过多职责，应该创建个 `EquipmentHelper` 之类的辅助类来分管各项功能，而不是将各种细小功能集成在 `Player` 类中，在 `Storage` 的设计时将会尝试改进 |
 | 8/3    | 突然想到 `Consumable` 等一系列的类可以使用装饰器模式 |

@@ -34,8 +34,8 @@ public class Storage {
         consumableBag = new HashMap<>(INITIAL_SIZE);
         battleBag = new HashMap<>(10);
         // Initialize menus
-        equipmentQueryMenu = Arrays.asList("exit", "details", "equip");
-        consumableQueryMenu = Arrays.asList("exit", "details", "consume");
+        equipmentQueryMenu = Arrays.asList("exit", "details", "equip", "remove");
+        consumableQueryMenu = Arrays.asList("exit", "details", "consume", "remove");
     }
 
     public Storage(Player player, List<Equipment> equipmentBag, Map<Consumable, Integer> consumableBag, Map<Consumable, Integer> battleBag) {
@@ -131,7 +131,6 @@ public class Storage {
         String userInput = MessageHelper.take().toUpperCase();
         switch (userInput) {
             case "Y":
-                MessageHelper.printMenu(equipmentBag);
                 // Choose an action
                 MessageHelper.printMessage("Choose Action", MessageType.PROMPT);
                 MessageHelper.printMenu(equipmentQueryMenu);
@@ -142,22 +141,31 @@ public class Storage {
                         MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
                     } else {
                         MessageHelper.printMessage("Choose a equipment", MessageType.PROMPT);
+                        MessageHelper.printMenu(equipmentBag);
                         int num = MessageHelper.getNumberInput();
+                        // Check in bounds
+                        if (!inBounds(num, equipmentBag)) {
+                            MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
+                            MessageHelper.printMessage("Choose an action", MessageType.PROMPT);
+                            continue;
+                        }
                         if (optNum == 1) {
                             // Detail
-                            if (inBounds(num, equipmentBag)) {
-                                MessageHelper.printMessage(equipmentBag.get(num).toString(), MessageType.INFO);
-                            } else MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
+                            MessageHelper.printMessage(equipmentBag.get(num).toString(), MessageType.INFO);
                         } else if (optNum == 2) {
                             // Equip
-                            if (inBounds(num, equipmentBag)) {
-                                Equipment previous = player.equip(equipmentBag.remove(num));
-                                MessageHelper.printMessage("Equip succeed!", MessageType.PROMPT);
-                                // Store the previous equipment to the storage.
-                                Optional.ofNullable(previous).ifPresent(equipmentBag::add);
-                                MessageHelper.printMessage("Current Bag", MessageType.PLAIN);
-                                MessageHelper.printMenu(equipmentBag);
-                            } else MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
+                            Equipment previous = player.equip(equipmentBag.remove(num));
+                            MessageHelper.printMessage("Equip succeed!", MessageType.PROMPT);
+                            // Store the previous equipment to the storage.
+                            Optional.ofNullable(previous).ifPresent(equipmentBag::add);
+                        } else if (optNum == 3) {
+                            // Remove
+                            MessageHelper.printMessage("Are you sure to remove it. Y/N", MessageType.PROMPT);
+                            String tmp = MessageHelper.take().toLowerCase();
+                            if (tmp.equals("y"))
+                                equipmentBag.remove(num);
+                            else if (!tmp.equals("n"))
+                                MessageHelper.printMessage("Invalid input.", MessageType.WARNING);
                         }
                     }
                     // Check empty
@@ -208,7 +216,7 @@ public class Storage {
                     if (optNum == 1) {
                         // Detail
                         MessageHelper.printMessage(tmpList.get(itemNum).toString(), MessageType.INFO);
-                    } else {
+                    } else if (optNum == 2) {
                         // Consume
                         Consumable toBeConsumed = tmpList.get(itemNum);
                         toBeConsumed.consume(player);
@@ -217,6 +225,14 @@ public class Storage {
                             consumableBag.remove(toBeConsumed);
                             tmpList.remove(itemNum);
                         } else consumableBag.put(toBeConsumed, consumableBag.get(toBeConsumed) - 1);
+                    } else if (optNum == 3) {
+                        // Remove
+                        MessageHelper.printMessage("Are you sure to remove it. Y/N", MessageType.PROMPT);
+                        String userInput = MessageHelper.take().toLowerCase();
+                        if (userInput.equals("y"))
+                            consumableBag.remove(tmpList.remove(itemNum));
+                        else if (!userInput.equals("n"))
+                            MessageHelper.printMessage("Invalid input.", MessageType.WARNING);
                     }
                 }
             }

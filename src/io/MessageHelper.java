@@ -76,6 +76,7 @@ public class MessageHelper {
     public static String take() {
         String message = "";
         try {
+            System.out.print(">> ");
             message = reader.readLine();
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,6 +90,7 @@ public class MessageHelper {
      */
     public static int getNumberInput() {
         try {
+            System.out.print("Enter a number: ");
             return Integer.parseInt(reader.readLine());
         } catch (IOException e) {
             e.printStackTrace();

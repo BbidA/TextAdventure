@@ -90,13 +90,16 @@ public class Player {
         jsonObject.addProperty("exp", exp);
         jsonObject.addProperty("expMax", expMax);
 
-        //equipment part
+        // Equipment part
         JsonObject equipmentObj = new JsonObject();
         for (EquipmentLocation location : EquipmentLocation.values()) {
             Equipment tmp = equipments.get(location);
             equipmentObj.addProperty(location.toString(), tmp == null ? "nothing" : tmp.getName());
         }
         jsonObject.add("equipments", equipmentObj);
+
+        // Storage part
+        jsonObject.add("storage", storage.getJsonDescription());
 
         String dirName = "json/profiles/" + name;
         File file = new File(dirName);
@@ -165,7 +168,9 @@ public class Player {
                 MessageHelper.printMessage("Out of bounds", MessageType.WARNING);
                 return;
             }
-            equipments.remove(equipmentLocations.get(optNum)).removeFrom(this);
+            Equipment toRemove = equipments.remove(equipmentLocations.get(optNum));
+            toRemove.removeFrom(this);
+            storage.addEquipment(toRemove);
             MessageHelper.printMessage("Remove succeed", MessageType.PROMPT);
         } catch (NumberFormatException e) {
             MessageHelper.printMessage("Invalid input", MessageType.WARNING);
@@ -298,13 +303,10 @@ public class Player {
     //test code
     public static void main(String[] args) {
         Player player = new Player("test");
-//        player.printAttributes();
         Consumable consumable = ConsumableRepository.INSTANCE.getConsumable("health potion(small)");
-//        consumable.consume(player);
         player.storage.addConsumables(consumable, 1);
+        player.storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("bread"));
         player.storage.addEquipment(EquipmentRepository.INSTANCE.getEquipment("sword"));
-        player.storage.queryStorage();
-//        System.out.println(consumable);
-        player.printAttributes();
+        player.save();
     }
 }

@@ -1,16 +1,22 @@
 package player;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import item.Consumable;
 import item.Equipment;
 import item.EquipmentLocation;
+import item.Storage;
+import item.repository.ConsumableRepository;
 import item.repository.EquipmentRepository;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,9 +35,9 @@ public class PlayerManager {
         JsonParser parser = new JsonParser();
         try (Reader reader = new FileReader(getDirName(playerName) + playerName + "_profile.json")) {
             JsonObject jsonObject = parser.parse(reader).getAsJsonObject();
-            //get the initial player by the constructor Player(String)
+            // Get the initial player by the constructor Player(String)
             Player player = new Player(jsonObject.get("name").getAsString());
-            //set the attributes of the player object
+            // Set the attributes of the player object
             player.setLifeValue(jsonObject.get("lifeValue").getAsInt());
             player.setLifeValueMax(jsonObject.get("lifeValueMax").getAsInt());
             player.setMagicValue(jsonObject.get("magicValue").getAsInt());
@@ -42,7 +48,7 @@ public class PlayerManager {
             player.setAttack(jsonObject.get("attack").getAsInt());
             player.setDefence(jsonObject.get("defence").getAsInt());
 
-            //load equipments
+            // Load equipments
             JsonObject equipmentObj = jsonObject.get("equipments").getAsJsonObject();
             Map<EquipmentLocation, Equipment> equipments = new HashMap<>();
             for (Map.Entry<String, JsonElement> entry : equipmentObj.entrySet()) {
@@ -53,13 +59,32 @@ public class PlayerManager {
             }
             player.setEquipments(equipments);
 
-            // TODO: 2017/8/4 load storage.
+            // Load storage
+            JsonObject storageJsonObj = jsonObject.get("storage").getAsJsonObject();
+            // Equipment bag
+            List<Equipment> equipmentList = new ArrayList<>();
+            JsonArray equipmentArray = storageJsonObj.get("Equipment Bag").getAsJsonArray();
+            for (JsonElement element : equipmentArray)
+                equipmentList.add(EquipmentRepository.INSTANCE.getEquipment(element.getAsString()));
+            // Other two bags
+            Map<Consumable, Integer> consumableBag = parseJsonTree(storageJsonObj.get("Normal Consumables Bag").getAsJsonObject());
+            Map<Consumable, Integer> battleBag = parseJsonTree(storageJsonObj.get("Battle Consumable Bag").getAsJsonObject());
+            Storage storage = new Storage(player, equipmentList, consumableBag, battleBag);
+            player.setStorage(storage);
 
             return player;
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static Map<Consumable, Integer> parseJsonTree(JsonObject jsonObject) {
+        Map<Consumable, Integer> map = new HashMap<>();
+        for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
+            map.put(ConsumableRepository.INSTANCE.getConsumable(entry.getKey()), entry.getValue().getAsInt());
+        }
+        return map;
     }
 
     private static String getDirName(String playerName) {

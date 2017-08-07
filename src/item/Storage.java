@@ -1,5 +1,8 @@
 package item;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import io.MessageHelper;
 import io.MessageType;
 import item.repository.ConsumableRepository;
@@ -14,7 +17,6 @@ import java.util.*;
  * @author Liao
  */
 public class Storage {
-    // TODO: 2017/8/4 add comments. And the way to save/load this class.
     private static final int INITIAL_SIZE = 64;
     private static final int BATTLE_BAG_SIZE = 32;
     private static final List<String> QUERY_MENU = Arrays.asList("Equipment", "Consumables");
@@ -34,6 +36,13 @@ public class Storage {
         // Initialize menus
         equipmentQueryMenu = Arrays.asList("exit", "details", "equip");
         consumableQueryMenu = Arrays.asList("exit", "details", "consume");
+    }
+
+    public Storage(Player player, List<Equipment> equipmentBag, Map<Consumable, Integer> consumableBag, Map<Consumable, Integer> battleBag) {
+        this(player);
+        this.equipmentBag = equipmentBag;
+        this.consumableBag = consumableBag;
+        this.battleBag = battleBag;
     }
 
     public void queryStorage() {
@@ -82,7 +91,7 @@ public class Storage {
     }
 
     /**
-     * Add equipment to the storage if the bag is not full..
+     * Add equipment to the storage if the bag is not full. If it's full, the equipment will be abandon automatically.
      * @param equipment equipment you want to add.
      */
     public void addEquipment(Equipment equipment) {
@@ -151,7 +160,11 @@ public class Storage {
                             } else MessageHelper.printMessage("Please enter a valid number", MessageType.WARNING);
                         }
                     }
-                    MessageHelper.printMessage("Choose an action", MessageType.PROMPT);
+                    // Check empty
+                    if (equipmentBag.isEmpty()) {
+                        MessageHelper.printMessage("The bag is empty now.", MessageType.WARNING);
+                        break;
+                    } else MessageHelper.printMessage("Choose an action", MessageType.PROMPT);
                 }
                 MessageHelper.printMessage("Bag exit", MessageType.PROMPT);
                 break;
@@ -217,6 +230,28 @@ public class Storage {
         MessageHelper.printMessage("Exit bag.", MessageType.PLAIN);
     }
 
+    public JsonElement getJsonDescription() {
+        JsonObject jsonObject = new JsonObject();
+        // Equipment bag
+        JsonArray equipmentArray = new JsonArray();
+        equipmentBag.forEach(equipment -> equipmentArray.add(equipment.getName()));
+        jsonObject.add("Equipment Bag", equipmentArray);
+        // Normal consumables
+        jsonObject.add("Normal Consumables Bag", bagToJson(consumableBag));
+        // Battle consumables
+        jsonObject.add("Battle Consumable Bag", bagToJson(battleBag));
+
+        return jsonObject;
+    }
+
+    private JsonObject bagToJson(Map<Consumable, Integer> bag) {
+        JsonObject bagJson = new JsonObject();
+        for (Map.Entry<Consumable, Integer> entry : bag.entrySet()) {
+            bagJson.addProperty(entry.getKey().getName(), entry.getValue());
+        }
+        return bagJson;
+    }
+
     private boolean inBounds(int optNum, Collection collection) {
         if (optNum < 0 || optNum >= collection.size()) {
             MessageHelper.printMessage("Out of bounds", MessageType.WARNING);
@@ -225,12 +260,16 @@ public class Storage {
         return true;
     }
 
+    public Map<Consumable, Integer> getBattleBag() {
+        return battleBag;
+    }
+
     public static void main(String[] args) {
         Storage storage = new Storage(new Player("test"));
         storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("health potion(small)"));
         storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("bread"), 2);
         storage.addEquipment(EquipmentRepository.INSTANCE.getEquipment("sword"));
-        storage.queryStorage();
+//        storage.queryStorage();
 //        storage.listConsumables();
 //        storage.listEquipment();
     }

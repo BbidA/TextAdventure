@@ -116,10 +116,9 @@ public class Game {
                 //save user status and exit
                 exit();
                 break;
-            } else if (userInput.equals("list")) {
-                player.listEquipment();
+            } else if (userInput.equals("storage")) {
+                player.storage.queryStorage();
             } else {
-                player.equip(EquipmentRepository.INSTANCE.getEquipment("sword"));
                 parser.parseCommand(userInput);
             }
         }

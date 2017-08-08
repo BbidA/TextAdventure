@@ -56,7 +56,7 @@ public class MessageHelper {
      * Print a menu in a user defined format.
      * @param menuItem the items of the menu
      * @param function way to present items
-     * @param <T> type of the item in the list
+     * @param <T>      type of the item in the list
      */
     public static <T> void printMenu(List<T> menuItem, Function<T, String> function) {
         System.out.println(SEP_LINE);

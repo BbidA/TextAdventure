@@ -4,12 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.MessageHelper;
 import io.MessageType;
-import item.Consumable;
 import item.Equipment;
 import item.EquipmentLocation;
 import item.Storage;
-import item.repository.ConsumableRepository;
-import item.repository.EquipmentRepository;
 import player.helper.BattleHelper;
 import player.helper.ExpHelper;
 
@@ -30,7 +27,9 @@ public class Player {
     private static final int DEFENCE_INIT_VALUE = 10;
     private static final int EXP_UP_VALUE = 100;
     private static final int ATTRIBUTE_UP_VARIATION_RANGE = 20;
-
+    public final ExpHelper expHelper;
+    public final BattleHelper battleHelper;
+    public Storage storage; //store items
     private int lifeValue, lifeValueMax;
     private int magicValue, magicValueMax;
     private int attack;
@@ -39,12 +38,8 @@ public class Player {
     private int exp;
     private int expMax;
     private int luckyPoint; //between 0 and 10
-
     private String name;
     private Map<EquipmentLocation, Equipment> equipments;
-    public Storage storage; //store items
-    public final ExpHelper expHelper;
-    public final BattleHelper battleHelper;
 
     /**
      * Create a new player
@@ -295,16 +290,5 @@ public class Player {
 
     public void setStorage(Storage storage) {
         this.storage = storage;
-    }
-
-
-    //test code
-    public static void main(String[] args) {
-        Player player = new Player("test");
-        Consumable consumable = ConsumableRepository.INSTANCE.getConsumable("health potion(small)");
-        player.storage.addConsumables(consumable, 1);
-        player.storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("bread"));
-        player.storage.addEquipment(EquipmentRepository.INSTANCE.getEquipment("sword"));
-        player.save();
     }
 }

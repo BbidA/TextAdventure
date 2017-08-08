@@ -7,5 +7,25 @@
     "addMagic": 0,
     "addHealth": 0,
     "addDefence": 0
+  },
+
+  "hammer": {
+    "name": "Hammer",
+    "location": "hand",
+    "description": "a ugly hammer",
+    "addAttack": 15,
+    "addMagic": 0,
+    "addHealth": 0,
+    "addDefence": 0
+  },
+
+  "armour": {
+    "name": "Armour",
+    "location": "chest",
+    "description": "a ugly armour",
+    "addAttack": 0,
+    "addMagic": 0,
+    "addHealth": 0,
+    "addDefence": 5
   }
 }

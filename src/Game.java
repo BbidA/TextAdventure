@@ -1,7 +1,6 @@
 import command.CommandParser;
 import io.MessageHelper;
 import io.MessageType;
-import item.repository.EquipmentRepository;
 import player.Player;
 import player.PlayerManager;
 

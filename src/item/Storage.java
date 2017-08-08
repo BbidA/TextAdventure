@@ -17,6 +17,7 @@ import java.util.*;
  * @author Liao
  */
 public class Storage {
+    // TODO: 2017/8/7 create some methods to interact with items of battle bags.
     private static final int INITIAL_SIZE = 64;
     private static final int BATTLE_BAG_SIZE = 32;
     private static final List<String> QUERY_MENU = Arrays.asList("Equipment", "Consumables");
@@ -100,8 +101,6 @@ public class Storage {
         else equipmentBag.add(equipment);
     }
 
-    // TODO: 2017/8/3 The method to consume items of battle bags.
-
     /**
      * List the name of the equipments and its relevant description.
      */
@@ -116,8 +115,6 @@ public class Storage {
     public void listConsumables() {
         MessageHelper.printMessage("Normal Type", MessageType.PLAIN);
         MessageHelper.list(consumableBag.keySet(), Consumable::getName, consumable -> " | Quantity: " + consumableBag.get(consumable).toString());
-        MessageHelper.printMessage("Battle Type", MessageType.PLAIN);
-        MessageHelper.list(battleBag.keySet(), Consumable::getName, consumable -> " | Quantity: " + battleBag.get(consumable).toString());
     }
 
     private void queryEquipment() {
@@ -246,6 +243,36 @@ public class Storage {
         MessageHelper.printMessage("Exit bag.", MessageType.PLAIN);
     }
 
+    /**
+     * Query the battle bag to consume the items in it.
+     * @return true if consume successfully.
+     */
+    public boolean queryBattleBag() {
+        // Check empty
+        if (battleBag.isEmpty()) {
+            MessageHelper.printMessage("The bag is empty", MessageType.WARNING);
+            return false;
+        }
+        MessageHelper.printMessage("Which one you'd like to use.", MessageType.PROMPT);
+        List<Consumable> consumableList = new ArrayList<>(battleBag.keySet());
+        MessageHelper.printMenu(consumableList,
+                consumable -> " | Quantity: " + battleBag.get(consumable) + " | Description: " + consumable.getDescription());
+        int optNum = MessageHelper.getNumberInput();
+        // Check bounds
+        if (!inBounds(optNum, consumableList))
+            return false;
+        // Consume it
+        Consumable consumable = consumableList.get(optNum);
+        consumable.consume(player);
+        // Minus one
+        int currentNum = battleBag.get(consumable);
+        if (currentNum == 1)
+            battleBag.remove(consumable);
+        else battleBag.put(consumable, currentNum - 1);
+        MessageHelper.printMessage("Consume succeed.", MessageType.PLAIN);
+        return true;
+    }
+
     public JsonElement getJsonDescription() {
         JsonObject jsonObject = new JsonObject();
         // Equipment bag
@@ -282,11 +309,11 @@ public class Storage {
 
     public static void main(String[] args) {
         Storage storage = new Storage(new Player("test"));
-        storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("health potion(small)"));
+        storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("health potion(small)"), 2);
         storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("bread"), 2);
         storage.addEquipment(EquipmentRepository.INSTANCE.getEquipment("sword"));
-//        storage.queryStorage();
-//        storage.listConsumables();
-//        storage.listEquipment();
+        storage.queryBattleBag();
+        storage.queryBattleBag();
+        storage.queryBattleBag();
     }
 }

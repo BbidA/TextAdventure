@@ -15,7 +15,7 @@ public interface Consumable {
     String getDescription();
 
     /**
-     * Consume this item and let the number minus 1, then print the player's status.
+     * Consume this item, then print the player's status.
      * @param player the Player who will consume this item.
      */
     void consume(Player player);

@@ -77,7 +77,6 @@ public class Player {
      */
     public void save() {
         Gson gson = new Gson();
-        //TODO complete and items saving
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("name", name);
         jsonObject.addProperty("lifeValue", lifeValue);
@@ -145,7 +144,6 @@ public class Player {
     public Equipment equip(Equipment target) {
         target.equipTo(this);
         return equipments.put(target.getLocation(), target);
-        // TODO: 2017/8/4 put the old equipment to the storage.
     }
 
     /**

@@ -5,6 +5,7 @@ import item.BattleConsumable;
 import item.Consumable;
 import item.NormalConsumable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -46,5 +47,9 @@ public enum ConsumableRepository {
 
     public Consumable getConsumable(String name) {
         return RepositoryHelper.get(name, FILE_PATH, gson, Consumable.class);
+    }
+
+    public Consumable getRandomConsumable(List<String> names) {
+        return RepositoryHelper.getRandom(names, FILE_PATH, gson, Consumable.class);
     }
 }

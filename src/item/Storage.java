@@ -7,6 +7,8 @@ import io.MessageHelper;
 import io.MessageType;
 import item.repository.ConsumableRepository;
 import item.repository.EquipmentRepository;
+import monster.Frog;
+import monster.Monster;
 import player.Player;
 
 import java.util.*;
@@ -17,7 +19,6 @@ import java.util.*;
  * @author Liao
  */
 public class Storage {
-    // TODO: 2017/8/7 create some methods to interact with items of battle bags.
     private static final int INITIAL_SIZE = 64;
     private static final int BATTLE_BAG_SIZE = 32;
     private static final List<String> QUERY_MENU = Arrays.asList("Equipment", "Consumables");
@@ -68,6 +69,8 @@ public class Storage {
      * @param quantity   quantity of the item.
      */
     public void addConsumables(Consumable consumable, int quantity) {
+        // Check quantity
+        if (quantity <= 0) return;
         Integer preNum = consumableBag.get(consumable);
         int currentNum = (preNum == null ? quantity : preNum + quantity);
         if (consumable.usedInBattle()) {
@@ -305,15 +308,5 @@ public class Storage {
 
     public Map<Consumable, Integer> getBattleBag() {
         return battleBag;
-    }
-
-    public static void main(String[] args) {
-        Storage storage = new Storage(new Player("test"));
-        storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("health potion(small)"), 2);
-        storage.addConsumables(ConsumableRepository.INSTANCE.getConsumable("bread"), 2);
-        storage.addEquipment(EquipmentRepository.INSTANCE.getEquipment("sword"));
-        storage.queryBattleBag();
-        storage.queryBattleBag();
-        storage.queryBattleBag();
     }
 }

@@ -7,6 +7,8 @@ import com.google.gson.JsonObject;
 import item.Equipment;
 import item.EquipmentLocation;
 
+import java.util.List;
+
 /**
  * Created on 2017/7/30.
  * Description:
@@ -44,5 +46,9 @@ public enum EquipmentRepository {
      */
     public Equipment getEquipment(String equipmentName) {
         return RepositoryHelper.get(equipmentName, FILE_PATH, gson, Equipment.class);
+    }
+
+    public Equipment getRandomEquipment(List<String> names) {
+        return RepositoryHelper.getRandom(names, FILE_PATH, gson, Equipment.class);
     }
 }

@@ -17,6 +17,10 @@ import java.util.Random;
 public abstract class Monster {
     private static final int GOLD_RANDOM_RANGE = 50;
     private static final int EXP_RANDOM_RANGE = 20;
+    private static final int ATTACK_INCREASE = 5;
+    private static final int DEFENCE_INCREASE = 2;
+    private static final int EXP_INCREASE = 10;
+    private static final int HEALTH_INCREASE = 20;
 
     protected final String name;
     protected final String description;
@@ -26,6 +30,7 @@ public abstract class Monster {
     protected int defence;
     protected int goldBase;
     protected int expBase;
+    protected int riskLevel;
 
     protected ItemBag itemBag;
 
@@ -56,7 +61,7 @@ public abstract class Monster {
         }
     }
 
-    public Monster(String name, String description, int health, int attack, int defence) {
+    protected Monster(String name, String description, int health, int attack, int defence) {
         this.name = name;
         this.description = description;
         this.health = health;
@@ -146,5 +151,18 @@ public abstract class Monster {
     void setExpBase(int expBase) {
         if (expBase >= 0)
             this.expBase = expBase;
+    }
+
+    /**
+     * Set the risk level of the monster and update its attributes. This method should be invoked by its subclass.
+     * @param riskLevel risk level of the monster. The value of the parameter should be positive. If it's negative, it'll set to be 0 automatically.
+     */
+    protected void setRiskLevel(int riskLevel) {
+        if (riskLevel < 0) riskLevel = 0;
+        this.riskLevel = riskLevel;
+        attack += (riskLevel * ATTACK_INCREASE);
+        health += (riskLevel * HEALTH_INCREASE);
+        expBase += (riskLevel * EXP_INCREASE);
+        defence += (riskLevel * DEFENCE_INCREASE);
     }
 }

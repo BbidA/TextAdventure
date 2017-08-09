@@ -1,6 +1,10 @@
 package navigation;
 
+import monster.Monster;
 import player.Player;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Created on 2017/8/9.
@@ -21,5 +25,14 @@ public class MonsterRegion extends RegionDecorator {
     public void triggerEvent(Player player) {
         region.triggerEvent(player);
         // Generate Monsters
+        LinkedList<Monster> monsterQueue = generateMonster();
+        while (!monsterQueue.isEmpty()) {
+            Monster monster = monsterQueue.removeFirst();
+            // TODO 8/9 Let the monster and the player have a battle
+        }
+    }
+
+    private LinkedList<Monster> generateMonster() {
+        return null;
     }
 }

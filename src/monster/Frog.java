@@ -15,10 +15,11 @@ import java.util.Random;
  */
 public class Frog extends Monster{
 
-    public Frog() {
+    public Frog(int riskLevel) {
         super("Frog", "I have lots of life experience", 150, 20, 15);
         setExpBase(20);
         setGoldBase(50);
+        setRiskLevel(riskLevel);
     }
 
     @Override

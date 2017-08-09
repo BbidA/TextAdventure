@@ -64,7 +64,6 @@ class RepositoryHelper {
             section.add(tmp);
         }
         // Generate random item
-        Random random = new Random();
         int randNum = (int) (Math.random() * FULL_PROPORTION);
         for (int i = 0; i < section.size(); i++) {
             if (randNum < section.get(i))

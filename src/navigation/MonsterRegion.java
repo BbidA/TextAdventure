@@ -7,26 +7,19 @@ import player.Player;
  * Description:
  * @author Liao
  */
-public class MonsterRegion implements Region {
+public class MonsterRegion extends RegionDecorator {
     // TODO: 2017/8/9 Generate monster and trigger a battle.
     private int riskLevel;
 
-    public MonsterRegion(int riskLevel) {
+    public MonsterRegion(String description, Point point, Region region, int riskLevel) {
+        super(description, point, region);
         this.riskLevel = riskLevel;
     }
 
+
     @Override
     public void triggerEvent(Player player) {
-
-    }
-
-    @Override
-    public void printLocationInfomation() {
-
-    }
-
-    @Override
-    public Point getPoint() {
-        return null;
+        region.triggerEvent(player);
+        // Generate Monsters
     }
 }

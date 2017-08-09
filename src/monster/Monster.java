@@ -7,13 +7,16 @@ import item.Equipment;
 import player.Player;
 
 import java.util.Optional;
+import java.util.Random;
 
 /**
  * Created on 2017/8/8.
- * Description: The abstract class of all monsters.
+ * Description: The abstract class of all monsters. Subclass of this class should set the goldBase and expBase manually.
  * @author Liao
  */
 public abstract class Monster {
+    private static final int GOLD_RANDOM_RANGE = 50;
+    private static final int EXP_RANDOM_RANGE = 20;
 
     protected final String name;
     protected final String description;
@@ -21,6 +24,8 @@ public abstract class Monster {
     protected int health;
     protected int attack;
     protected int defence;
+    protected int goldBase;
+    protected int expBase;
 
     protected ItemBag itemBag;
 
@@ -60,6 +65,16 @@ public abstract class Monster {
         itemBag = generateItem();
     }
 
+    public int dropGold() {
+        Random random = new Random();
+        return goldBase + random.nextInt(GOLD_RANDOM_RANGE);
+    }
+
+    public int dropExp() {
+        Random random = new Random();
+        return expBase + random.nextInt(EXP_RANDOM_RANGE);
+    }
+
     /**
      * Minus relevant attribute of the given player.
      * @param player attack target
@@ -94,5 +109,42 @@ public abstract class Monster {
         // Update items the monster takes.
         itemBag = generateItem();
         return true;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public int getDefence() {
+        return defence;
+    }
+
+    public void setHealth(int health) {
+        if (health < 0)
+            this.health = 0;
+        else
+            this.health = health;
+    }
+
+    void setGoldBase(int goldBase) {
+        if (goldBase >= 0)
+            this.goldBase = goldBase;
+    }
+
+    void setExpBase(int expBase) {
+        if (expBase >= 0)
+            this.expBase = expBase;
     }
 }

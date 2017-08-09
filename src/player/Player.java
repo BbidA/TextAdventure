@@ -7,6 +7,7 @@ import io.MessageType;
 import item.Equipment;
 import item.EquipmentLocation;
 import item.Storage;
+import monster.Monster;
 import player.helper.BattleHelper;
 import player.helper.ExpHelper;
 
@@ -129,8 +130,10 @@ public class Player {
      * Calculate the attack value
      * TODO finish this method
      */
-    public void attack() {
-
+    public void attack(Monster monster) {
+        int monsterDefence = monster.getDefence();
+        int healthReduction = attack * attack / (attack + monsterDefence);
+        monster.setHealth(monster.getHealth() - healthReduction);
     }
 
     /**
@@ -193,6 +196,8 @@ public class Player {
     public void setLifeValue(int lifeValue) {
         if (lifeValue > lifeValueMax)
             this.lifeValue = lifeValueMax;
+        else if (lifeValue < 0)
+            this.lifeValue = 0;
         else
             this.lifeValue = lifeValue;
     }
@@ -208,6 +213,8 @@ public class Player {
     public void setMagicValue(int magicValue) {
         if (magicValue > magicValueMax)
             this.magicValue = magicValueMax;
+        else if (magicValue < 0)
+            this.magicValue = 0;
         else
             this.magicValue = magicValue;
     }

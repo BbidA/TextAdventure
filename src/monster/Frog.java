@@ -4,7 +4,6 @@ import item.repository.ConsumableRepository;
 import item.repository.EquipmentRepository;
 import player.Player;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -18,11 +17,15 @@ public class Frog extends Monster{
 
     public Frog() {
         super("Frog", "I have lots of life experience", 150, 20, 15);
+        setExpBase(20);
+        setGoldBase(50);
     }
 
     @Override
     public void attack(Player player) {
-
+        int playerDefence = player.getDefence();
+        int healthReduction = attack * attack / (attack + playerDefence);
+        player.setLifeValue(player.getLifeValue() - healthReduction);
     }
 
     @Override

@@ -8,8 +8,8 @@ import item.Consumable;
 import item.Equipment;
 import item.EquipmentLocation;
 import item.Storage;
-import item.repository.ConsumableRepository;
-import item.repository.EquipmentRepository;
+import repository.ConsumableRepository;
+import repository.EquipmentRepository;
 
 import java.io.FileReader;
 import java.io.IOException;

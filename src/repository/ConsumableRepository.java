@@ -1,4 +1,4 @@
-package item.repository;
+package repository;
 
 import com.google.gson.*;
 import item.BattleConsumable;

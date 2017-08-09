@@ -1,7 +1,7 @@
 package monster;
 
-import item.repository.ConsumableRepository;
-import item.repository.EquipmentRepository;
+import repository.ConsumableRepository;
+import repository.EquipmentRepository;
 import player.Player;
 
 import java.util.Arrays;

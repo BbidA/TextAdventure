@@ -1,8 +1,6 @@
 package monster;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -27,5 +25,17 @@ public class MonsterFactory {
     public static Monster giveMeMonster(String monsterName, int riskLevel) {
         monsterName = monsterName.toLowerCase();
         return Optional.ofNullable(monsterMap.get(monsterName)).map(e -> e.apply(riskLevel)).orElseThrow(IllegalArgumentException::new);
+    }
+
+    /**
+     * Generate a monster from the given list randomly.
+     * @param monsters a monster list which you want the monster to be generated from
+     * @param riskLevel risk level of the monster
+     * @return a random monster from the list
+     */
+    public static Monster giveMeRandomMonster(List<String> monsters, int riskLevel) {
+        Random random = new Random();
+        int randNum = random.nextInt(monsters.size());
+        return giveMeMonster(monsters.get(randNum), riskLevel);
     }
 }

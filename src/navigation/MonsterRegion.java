@@ -1,10 +1,12 @@
 package navigation;
 
 import monster.Monster;
+import monster.MonsterFactory;
 import player.Player;
 
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created on 2017/8/9.
@@ -12,12 +14,15 @@ import java.util.Queue;
  * @author Liao
  */
 public class MonsterRegion extends RegionDecorator {
-    // TODO: 2017/8/9 Generate monster and trigger a battle.
+    private static final int MONSTER_NUM_LIMIT = 5;
     private int riskLevel;
+    private List<String> monstersRange;
 
-    public MonsterRegion(String description, Point point, Region region, int riskLevel) {
+    public MonsterRegion(String description, Point point, Region region, int riskLevel, List<String> monstersRange) {
         super(description, point, region);
-        this.riskLevel = riskLevel;
+        // Check positive
+        if (riskLevel >= 0) this.riskLevel = riskLevel;
+        this.monstersRange = monstersRange;
     }
 
 
@@ -33,6 +38,14 @@ public class MonsterRegion extends RegionDecorator {
     }
 
     private LinkedList<Monster> generateMonster() {
-        return null;
+        // Get monster quantity
+        Random random = new Random();
+        int monsterNum = random.nextInt(MONSTER_NUM_LIMIT);
+        // Generate monsters
+        LinkedList<Monster> monsterList = new LinkedList<>();
+        for (int i = 0; i < monsterNum; i++) {
+            monsterList.add(MonsterFactory.giveMeRandomMonster(monstersRange, riskLevel));
+        }
+        return monsterList;
     }
 }

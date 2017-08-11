@@ -1,0 +1,9 @@
+{
+  "0": {
+    "number": 0,
+    "description": "Kill 5 Frogs.",
+    "monster type": "Frog",
+    "target": 5,
+    "exp": 100
+  }
+}

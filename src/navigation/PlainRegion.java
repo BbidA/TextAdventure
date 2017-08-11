@@ -11,12 +11,12 @@ import player.Player;
  */
 public class PlainRegion extends Region {
 
-    public PlainRegion(String description, Point point) {
-        super(description, point);
+    public PlainRegion(String description) {
+        super(description);
     }
 
     @Override
     public void triggerEvent(Player player) {
-        MessageHelper.printMessage("Current point: " + point.toString(), MessageType.PLAIN);
+        MessageHelper.printMessage("Current place: " + description, MessageType.PLAIN);
     }
 }

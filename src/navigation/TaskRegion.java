@@ -8,11 +8,10 @@ import player.Player;
  * @author Liao
  */
 public class TaskRegion extends RegionDecorator {
-    private int taskLevel;
 
-    public TaskRegion(String description, Point point, Region region, int taskLevel) {
-        super(description, point, region);
-        this.taskLevel = taskLevel;
+
+    public TaskRegion(String description, Region region) {
+        super(description, region);
     }
 
     @Override

@@ -10,11 +10,9 @@ import player.Player;
 public abstract class Region {
 
     protected String description;
-    protected Point point;
 
-    public Region(String description, Point point) {
+    public Region(String description) {
         this.description = description;
-        this.point = point;
     }
 
     /**
@@ -22,12 +20,4 @@ public abstract class Region {
      * @param player event target
      */
     public abstract void triggerEvent(Player player);
-
-    /**
-     * Get the point of this region.
-     * @return Point denote this region.
-     */
-    public Point getPoint() {
-        return point;
-    }
 }

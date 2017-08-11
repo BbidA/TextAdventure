@@ -2,12 +2,13 @@
   "0,0": {
     "description": "The Home City",
     "type": "task",
-    "task list": [0, 1]
+    "task list": [0]
   },
 
   "4,4": {
     "description": "Frog Upland",
     "type": "monster",
-    "monster list": ["frog"]
+    "monster list": ["frog"],
+    "risk level": 2
   }
 }

@@ -101,7 +101,7 @@ public class MessageHelper {
 
     /**
      * Get a numerical input from the console. If it's not a number, it'll print warning message.
-     * @return
+     * @return -1 if you enter an invalid num or else will return the num you input.
      */
     public static int getNumberInput() {
         try {

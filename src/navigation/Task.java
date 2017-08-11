@@ -10,7 +10,7 @@ import monster.Monster;
 public class Task {
     private final String description;
     private final int taskNumber;
-    private final String monsterType;
+    private final String monsterType; // It should equals the monster's class name exactly
     private final int monsterTarget;
 
     private int currentProcess;

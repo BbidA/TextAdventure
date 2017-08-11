@@ -10,6 +10,7 @@ import item.Storage;
 import monster.Monster;
 import player.helper.BattleHelper;
 import player.helper.ExpHelper;
+import player.helper.TaskHelper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -28,9 +29,12 @@ public class Player {
     private static final int DEFENCE_INIT_VALUE = 10;
     private static final int EXP_UP_VALUE = 100;
     private static final int ATTRIBUTE_UP_VARIATION_RANGE = 20;
+
     public final ExpHelper expHelper;
     public final BattleHelper battleHelper;
+    public final TaskHelper taskHelper;
     public Storage storage; //store items
+
     private int lifeValue, lifeValueMax;
     private int magicValue, magicValueMax;
     private int attack;
@@ -65,6 +69,8 @@ public class Player {
         storage = new Storage(this);
         expHelper = new ExpHelper(this);
         battleHelper = new BattleHelper(this);
+        taskHelper = new TaskHelper(this);
+        // TODO: 2017/8/11 add saving and loading task
     }
 
 
@@ -231,6 +237,10 @@ public class Player {
         return exp;
     }
 
+    /**
+     * This method should only be invoked by <code>ExpHelper</code> and <code>PlayerManager</code>
+     * @param exp
+     */
     public void setExp(int exp) {
         this.exp = exp;
     }

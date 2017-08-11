@@ -13,12 +13,11 @@ import java.util.List;
  * @author Liao
  */
 public class TaskRegion extends RegionDecorator {
-    private static final int TASK_LIST_INITIAL_SIZE = 5;
     private List<Task> taskList;
 
-    public TaskRegion(Region region) {
+    public TaskRegion(Region region, List<Task> taskList) {
         super(region);
-        taskList = new ArrayList<>(TASK_LIST_INITIAL_SIZE);
+        this.taskList = taskList;
     }
 
     @Override

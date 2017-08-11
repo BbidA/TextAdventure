@@ -305,4 +305,16 @@ public class Storage {
     public Map<Consumable, Integer> getBattleBag() {
         return battleBag;
     }
+
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        for (int i = 0; i < list.size(); i++) {
+            list.remove(i);
+            i--;
+        }
+        list.forEach(System.out::println);
+    }
 }

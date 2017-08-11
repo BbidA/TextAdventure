@@ -8,8 +8,8 @@ package navigation;
 public abstract class RegionDecorator extends Region{
     protected Region region;
 
-    protected RegionDecorator(String description, Region region) {
-        super(description);
+    protected RegionDecorator(Region region) {
+        super(region.description);
         this.region = region;
     }
 }

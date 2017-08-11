@@ -19,5 +19,5 @@ public abstract class Region {
      * When the player come to this region, some event will be triggered.
      * @param player event target
      */
-    public abstract void triggerEvent(Player player);
+    public abstract void triggerEvent(Player player);// TODO: 2017/8/11 consider the way of invoking this method
 }

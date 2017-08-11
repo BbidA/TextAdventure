@@ -18,8 +18,8 @@ public class MonsterRegion extends RegionDecorator {
     private int riskLevel;
     private List<String> monstersRange;
 
-    public MonsterRegion(String description, Region region, int riskLevel, List<String> monstersRange) {
-        super(description, region);
+    public MonsterRegion(Region region, int riskLevel, List<String> monstersRange) {
+        super(region);
         // Check positive
         if (riskLevel >= 0) this.riskLevel = riskLevel;
         this.monstersRange = monstersRange;

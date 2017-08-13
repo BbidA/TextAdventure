@@ -13,7 +13,6 @@ import java.util.Optional;
  * @author Liao
  */
 public enum RegionRepository {
-    // TODO: 2017/8/9 load region information from a json file
     INSTANCE;
 
     private static final String REGION_FILE_PATH = "json/regions.json";
@@ -75,7 +74,13 @@ public enum RegionRepository {
                 .orElse(new PlainRegion("A plain region"));
     }
 
-    private Task getTask(int taskNum) {
+    /**
+     * Get <code>Task</code> according to the number you give.
+     * @param taskNum number of the task
+     * @return initial task with specified number
+     * @throws IllegalArgumentException if the task num was not in the task.json file
+     */
+    public Task getTask(int taskNum) {
         return Optional.ofNullable(RepositoryHelper.get(Integer.toString(taskNum), TASK_FILE_PATH, gson, Task.class))
                 .orElseThrow(IllegalArgumentException::new);
     }

@@ -8,8 +8,10 @@ import item.Consumable;
 import item.Equipment;
 import item.EquipmentLocation;
 import item.Storage;
+import navigation.Task;
 import repository.ConsumableRepository;
 import repository.EquipmentRepository;
+import repository.RegionRepository;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -72,6 +74,13 @@ public class PlayerManager {
             Storage storage = new Storage(player, equipmentList, consumableBag, battleBag);
             player.setStorage(storage);
 
+            // Load task
+            JsonObject taskJsonObj = jsonObject.get("task").getAsJsonObject();
+            for (Map.Entry<String, JsonElement> entry : taskJsonObj.entrySet()) {
+                Task task = RegionRepository.INSTANCE.getTask(Integer.parseInt(entry.getKey()));
+                task.setCurrentProcess(entry.getValue().getAsInt());
+                player.taskHelper.addTask(task);
+            }
             return player;
         } catch (IOException e) {
             e.printStackTrace();

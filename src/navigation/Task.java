@@ -59,6 +59,21 @@ public class Task {
         return taskNumber;
     }
 
+    public int getCurrentProcess() {
+        return currentProcess;
+    }
+
+    /**
+     * Set the current process of this task.
+     * If the current process you give is negative or larger than the target, the current process will set to be 0 by default.
+     * @param currentProcess the value of the current process you want to set
+     */
+    public void setCurrentProcess(int currentProcess) {
+        if (currentProcess >= 0 && currentProcess < monsterTarget)
+            this.currentProcess = currentProcess;
+        else this.currentProcess = 0;
+    }
+
     @Override
     public String toString() {
         return description + System.lineSeparator()

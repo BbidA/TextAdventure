@@ -101,6 +101,8 @@ public class Player {
 
         // Storage part
         jsonObject.add("storage", storage.getJsonDescription());
+        // Task part
+        jsonObject.add("task", taskHelper.getJsonDescription());
 
         String dirName = "json/profiles/" + name;
         File file = new File(dirName);

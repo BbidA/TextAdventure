@@ -1,5 +1,7 @@
 package player.helper;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import monster.Monster;
 import navigation.Task;
 import player.Player;
@@ -48,6 +50,13 @@ public class TaskHelper {
             }
         }
         // TODO: 2017/8/11 to see whether this will throw a ConcurrentModifiedException
+    }
+
+    public JsonElement getJsonDescription() {
+        JsonObject jsonObject = new JsonObject();
+        // Property is the number of the task and the value is the current process of the task.
+        taskList.forEach(task -> jsonObject.addProperty(task.getTaskNumber() + "", task.getCurrentProcess()));
+        return jsonObject;
     }
 
     private void getPayback(Task task) {

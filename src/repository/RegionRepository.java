@@ -65,6 +65,16 @@ public enum RegionRepository {
 
     /**
      * Get <code>Region</code> denoted by the position you give.
+     * @param point <code>Point</code> of the region
+     * @return plain region if this position was not defined in the regions.json.
+     * Or will return specified region if the json file had defined it.
+     */
+    public Region getRegion(Point point) {
+        return getRegion(point.getX() + "," + point.getY());
+    }
+
+    /**
+     * Get <code>Region</code> denoted by the position you give.
      * @param position position of the region
      * @return plain region if this position was not defined in the regions.json.
      * Or will return specified region if the json file had defined it.

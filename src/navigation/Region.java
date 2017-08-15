@@ -20,4 +20,8 @@ public abstract class Region {
      * @param player event target
      */
     public abstract void triggerEvent(Player player);// TODO: 2017/8/11 consider the way of invoking this method
+
+    public String getDescription() {
+        return description;
+    }
 }

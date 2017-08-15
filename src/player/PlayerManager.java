@@ -53,7 +53,7 @@ public class PlayerManager {
 
             // Load location
             JsonArray point = jsonObject.getAsJsonArray("location");
-            player.setPoint(new Point(point.get(0).getAsInt(), point.get(1).getAsInt()));
+            player.locationHelper.setPoint(point.get(0).getAsInt(), point.get(1).getAsInt());
             // Load equipments
             JsonObject equipmentObj = jsonObject.get("equipments").getAsJsonObject();
             Map<EquipmentLocation, Equipment> equipments = new HashMap<>();

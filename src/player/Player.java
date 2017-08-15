@@ -12,6 +12,7 @@ import monster.Monster;
 import navigation.Point;
 import player.helper.BattleHelper;
 import player.helper.ExpHelper;
+import player.helper.LocationHelper;
 import player.helper.TaskHelper;
 
 import java.io.File;
@@ -35,6 +36,7 @@ public class Player {
     public final ExpHelper expHelper;
     public final BattleHelper battleHelper;
     public final TaskHelper taskHelper;
+    public final LocationHelper locationHelper;
     public Storage storage; //store items
 
     private int lifeValue, lifeValueMax;
@@ -47,7 +49,6 @@ public class Player {
     private int luckyPoint; //between 0 and 10
     private String name;
     private Map<EquipmentLocation, Equipment> equipments;
-    private Point point;
 
     /**
      * Create a new player
@@ -68,12 +69,12 @@ public class Player {
         defence = DEFENCE_INIT_VALUE + random.nextInt(ATTRIBUTE_UP_VARIATION_RANGE);
 
         luckyPoint = random.nextInt(10);
-        point = new Point(0, 0);
         equipments = new HashMap<>();
         storage = new Storage(this);
         expHelper = new ExpHelper(this);
         battleHelper = new BattleHelper(this);
         taskHelper = new TaskHelper(this);
+        locationHelper = new LocationHelper(this, new Point(0, 0));
     }
 
 
@@ -95,10 +96,7 @@ public class Player {
         jsonObject.addProperty("expMax", expMax);
 
         // Location part
-        JsonArray pointArray = new JsonArray(2);
-        pointArray.add(point.getX());
-        pointArray.add(point.getY());
-        jsonObject.add("location", pointArray);
+        jsonObject.add("location", locationHelper.getPointInJsonArray());
         // Equipment part
         JsonObject equipmentObj = new JsonObject();
         for (EquipmentLocation location : EquipmentLocation.values()) {
@@ -317,9 +315,5 @@ public class Player {
 
     public void setStorage(Storage storage) {
         this.storage = storage;
-    }
-
-    public void setPoint(Point point) {
-        this.point = point;
     }
 }

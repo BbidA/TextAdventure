@@ -1,6 +1,7 @@
 package player;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.MessageHelper;
 import io.MessageType;
@@ -8,6 +9,7 @@ import item.Equipment;
 import item.EquipmentLocation;
 import item.Storage;
 import monster.Monster;
+import navigation.Point;
 import player.helper.BattleHelper;
 import player.helper.ExpHelper;
 import player.helper.TaskHelper;
@@ -45,6 +47,7 @@ public class Player {
     private int luckyPoint; //between 0 and 10
     private String name;
     private Map<EquipmentLocation, Equipment> equipments;
+    private Point point;
 
     /**
      * Create a new player
@@ -65,12 +68,12 @@ public class Player {
         defence = DEFENCE_INIT_VALUE + random.nextInt(ATTRIBUTE_UP_VARIATION_RANGE);
 
         luckyPoint = random.nextInt(10);
+        point = new Point(0, 0);
         equipments = new HashMap<>();
         storage = new Storage(this);
         expHelper = new ExpHelper(this);
         battleHelper = new BattleHelper(this);
         taskHelper = new TaskHelper(this);
-        // TODO: 2017/8/11 add saving and loading task
     }
 
 
@@ -91,6 +94,11 @@ public class Player {
         jsonObject.addProperty("exp", exp);
         jsonObject.addProperty("expMax", expMax);
 
+        // Location part
+        JsonArray pointArray = new JsonArray(2);
+        pointArray.add(point.getX());
+        pointArray.add(point.getY());
+        jsonObject.add("location", pointArray);
         // Equipment part
         JsonObject equipmentObj = new JsonObject();
         for (EquipmentLocation location : EquipmentLocation.values()) {
@@ -98,12 +106,12 @@ public class Player {
             equipmentObj.addProperty(location.toString(), tmp == null ? "nothing" : tmp.getName());
         }
         jsonObject.add("equipments", equipmentObj);
-
         // Storage part
         jsonObject.add("storage", storage.getJsonDescription());
         // Task part
         jsonObject.add("task", taskHelper.getJsonDescription());
 
+        // Save to the json file
         String dirName = "json/profiles/" + name;
         File file = new File(dirName);
         if (!file.exists()) {
@@ -309,5 +317,9 @@ public class Player {
 
     public void setStorage(Storage storage) {
         this.storage = storage;
+    }
+
+    public void setPoint(Point point) {
+        this.point = point;
     }
 }

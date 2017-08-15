@@ -8,6 +8,7 @@ import item.Consumable;
 import item.Equipment;
 import item.EquipmentLocation;
 import item.Storage;
+import navigation.Point;
 import navigation.Task;
 import repository.ConsumableRepository;
 import repository.EquipmentRepository;
@@ -50,6 +51,9 @@ public class PlayerManager {
             player.setAttack(jsonObject.get("attack").getAsInt());
             player.setDefence(jsonObject.get("defence").getAsInt());
 
+            // Load location
+            JsonArray point = jsonObject.getAsJsonArray("location");
+            player.setPoint(new Point(point.get(0).getAsInt(), point.get(1).getAsInt()));
             // Load equipments
             JsonObject equipmentObj = jsonObject.get("equipments").getAsJsonObject();
             Map<EquipmentLocation, Equipment> equipments = new HashMap<>();
@@ -60,7 +64,6 @@ public class PlayerManager {
                             EquipmentRepository.INSTANCE.getEquipment(tmp.toLowerCase()));
             }
             player.setEquipments(equipments);
-
             // Load storage
             JsonObject storageJsonObj = jsonObject.get("storage").getAsJsonObject();
             // Equipment bag
@@ -106,7 +109,6 @@ public class PlayerManager {
      * @return null if the name has been used, else it'll return a new player
      */
     public static Player createNewPlayer(String name) {
-
         return new Player(name);
     }
 }

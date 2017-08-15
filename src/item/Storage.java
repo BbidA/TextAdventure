@@ -111,9 +111,11 @@ public class Storage {
     /**
      * List items of two bags and their own quantity.
      */
-    public void listConsumables() {
+    private void listConsumables() {
         MessageHelper.printMessage("Normal Type", MessageType.PLAIN);
         MessageHelper.list(consumableBag.keySet(), Consumable::getName, consumable -> " | Quantity: " + consumableBag.get(consumable).toString());
+        MessageHelper.printMessage("Battle Type", MessageType.PLAIN);
+        MessageHelper.list(battleBag.keySet(), Consumable::getName, consumable -> " | Quantity: " + battleBag.get(consumable).toString());
     }
 
     private void queryEquipment() {
@@ -302,19 +304,12 @@ public class Storage {
         return true;
     }
 
-    public Map<Consumable, Integer> getBattleBag() {
-        return battleBag;
+    public void listItems() {
+        listEquipment();
+        listConsumables();
     }
 
-    public static void main(String[] args) {
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        for (int i = 0; i < list.size(); i++) {
-            list.remove(i);
-            i--;
-        }
-        list.forEach(System.out::println);
+    public Map<Consumable, Integer> getBattleBag() {
+        return battleBag;
     }
 }

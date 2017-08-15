@@ -8,7 +8,6 @@ import item.Consumable;
 import item.Equipment;
 import item.EquipmentLocation;
 import item.Storage;
-import navigation.Point;
 import navigation.Task;
 import repository.ConsumableRepository;
 import repository.EquipmentRepository;
@@ -81,7 +80,7 @@ public class PlayerManager {
             JsonObject taskJsonObj = jsonObject.get("task").getAsJsonObject();
             for (Map.Entry<String, JsonElement> entry : taskJsonObj.entrySet()) {
                 Task task = RegionRepository.INSTANCE.getTask(Integer.parseInt(entry.getKey()));
-                task.setCurrentProcess(entry.getValue().getAsInt());
+                task.setCurrentProgress(entry.getValue().getAsInt());
                 player.taskHelper.addTask(task);
             }
             return player;

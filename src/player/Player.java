@@ -142,7 +142,6 @@ public class Player {
 
     /**
      * Calculate the attack value
-     * TODO finish this method
      */
     public void attack(Monster monster) {
         int monsterDefence = monster.getDefence();

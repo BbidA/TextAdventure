@@ -5,6 +5,8 @@ import io.MessageType;
 import player.Player;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Created on 2017/8/15.
@@ -84,5 +86,17 @@ public class CommandBag {
     @Command(command = "storage list", description = "List all items in the storage")
     public void commandListItems() {
         player.storage.listItems();
+    }
+
+    // Player
+    @Command(command = "player", description = "List current state of the player")
+    public void commandPlayerInformatoin() {
+        player.printAttributes();
+        player.listEquipment();
+    }
+
+    @Command(command = "player remove equipment", description = "Remove a equipment from the player")
+    public void commandPlayerRemoveEquipment() {
+        player.removeEquipment();
     }
 }

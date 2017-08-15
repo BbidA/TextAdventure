@@ -17,11 +17,12 @@ import java.util.Optional;
  *         Description: user interact with the system in this class
  */
 public class Game {
-    private CommandParser parser = new CommandParser();
+    private CommandParser parser;
     private Player player;
 
     public Game(Player player) {
         this.player = player;
+        parser = new CommandParser(player);
     }
 
     /**

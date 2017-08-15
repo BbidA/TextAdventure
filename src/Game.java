@@ -107,6 +107,7 @@ public class Game {
     private void startGame() {
         MessageHelper.printMessage("Welcome to the adventure world " + player.getName(), MessageType.PLAIN);
         player.printAttributes();
+        player.locationHelper.printRegionDescription();
         String userInput;
         while (true) {
             userInput = MessageHelper.take();

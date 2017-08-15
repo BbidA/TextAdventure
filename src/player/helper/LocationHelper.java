@@ -10,7 +10,7 @@ import repository.RegionRepository;
 
 /**
  * Created on 2017/8/15.
- * Description:
+ * Description: Help player manage his position.
  * @author Liao
  */
 public class LocationHelper {
@@ -28,18 +28,22 @@ public class LocationHelper {
 
     public void goWest() {
         point.goWest();
+        printRegionDescription();
     }
 
     public void goEast() {
         point.goEast();
+        printRegionDescription();
     }
 
     public void goNorth() {
         point.goNorth();
+        printRegionDescription();
     }
 
     public void goSouth() {
         point.goSouth();
+        printRegionDescription();
     }
 
     /**
@@ -47,6 +51,7 @@ public class LocationHelper {
      */
     public void printRegionDescription() {
         Region region = RegionRepository.INSTANCE.getRegion(point);
+        MessageHelper.printMessage("Current point: " + point.toString(), MessageType.PLAIN);
         MessageHelper.printMessage(region.getDescription(), MessageType.INFO);
     }
 

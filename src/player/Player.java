@@ -251,7 +251,7 @@ public class Player {
 
     /**
      * This method should only be invoked by <code>ExpHelper</code> and <code>PlayerManager</code>
-     * @param exp
+     * @param exp exp you wanna set
      */
     public void setExp(int exp) {
         this.exp = exp;

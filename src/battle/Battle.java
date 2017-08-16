@@ -46,6 +46,8 @@ public class Battle {
             // Go back to Home City
             player.locationHelper.setPoint(0, 0);
             player.locationHelper.printRegionDescription();
+            // Recover some health
+            player.setLifeValue(player.getLifeValueMax() / 10);
             MessageHelper.printMessage("You died", MessageType.PLAIN);
         } else {
             monster.dropItemsTo(player);
@@ -60,7 +62,6 @@ public class Battle {
         return num >= 0 && num < collection.size();
     }
 
-    // TODO: 2017/8/16 when the player die, do something to recover his health
     public boolean isPlayerWin() {
         return playerWin;
     }

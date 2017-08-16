@@ -63,7 +63,6 @@ public class CommandBag {
         player.locationHelper.triggerRegionEvent();
     }
 
-    // TODO: 2017/8/15 command for battle
     // Task
     @Command(command = "task", description = "See your tasks and their progress")
     public void commandTask() {

@@ -5,8 +5,6 @@ import io.MessageType;
 import player.Player;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Created on 2017/8/15.
@@ -65,7 +63,7 @@ public class CommandBag {
         player.locationHelper.triggerRegionEvent();
     }
 
-    // TODO: 2017/8/15 command for storage, equipment, battle
+    // TODO: 2017/8/15 command for battle
     // Task
     @Command(command = "task", description = "See your tasks and their progress")
     public void commandTask() {

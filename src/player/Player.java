@@ -1,7 +1,6 @@
 package player;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.MessageHelper;
 import io.MessageType;
@@ -30,7 +29,6 @@ public class Player {
     private static final String LINE_SEP = System.lineSeparator();
     private static final int ATTACK_INIT_VALUE = 30;
     private static final int DEFENCE_INIT_VALUE = 10;
-    private static final int EXP_UP_VALUE = 100;
     private static final int ATTRIBUTE_UP_VARIATION_RANGE = 20;
 
     public final ExpHelper expHelper;
@@ -146,7 +144,13 @@ public class Player {
     public void attack(Monster monster) {
         int monsterDefence = monster.getDefence();
         int healthReduction = attack * attack / (attack + monsterDefence);
+        MessageHelper.printMessage("You give " + monster.getName() + " " + healthReduction + " damage", MessageType.PLAIN);
         monster.setHealth(monster.getHealth() - healthReduction);
+        MessageHelper.printMessage("Monster current health: " + monster.getHealth(), MessageType.PLAIN);
+    }
+
+    public boolean isDie() {
+        return lifeValue == 0;
     }
 
     /**

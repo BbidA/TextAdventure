@@ -75,9 +75,11 @@ public abstract class Monster {
         return goldBase + random.nextInt(GOLD_RANDOM_RANGE);
     }
 
-    public int dropExp() {
+    public void dropExpTo(Player player) {
         Random random = new Random();
-        return expBase + random.nextInt(EXP_RANDOM_RANGE);
+        int expUp = expBase + random.nextInt(EXP_RANDOM_RANGE);
+        MessageHelper.printMessage("You get exp: " + expUp, MessageType.PLAIN);
+        player.expHelper.expUp(expUp);
     }
 
     /**
@@ -94,13 +96,13 @@ public abstract class Monster {
     /**
      * Get the items the monster will drop and then this method will update the items this monster takes.
      */
-    public boolean dropItemsTo(Player player) {
+    public void dropItemsTo(Player player) {
         MessageHelper.printMessage("You get: ", MessageType.PROMPT);
         // If nothing get, then return.
         if (itemBag.getEquipment() == null && itemBag.getConsumable() == null) {
             MessageHelper.printMessage("Nothing", MessageType.PLAIN);
             itemBag = generateItem();
-            return false;
+            return;
         }
         // Print message of items
         Optional.ofNullable(itemBag.getEquipment())
@@ -113,7 +115,6 @@ public abstract class Monster {
                 .ifPresent(consumable -> player.storage.addConsumables(consumable, itemBag.getNum()));
         // Update items the monster takes.
         itemBag = generateItem();
-        return true;
     }
 
     public String getName() {
@@ -141,6 +142,10 @@ public abstract class Monster {
             this.health = 0;
         else
             this.health = health;
+    }
+
+    public boolean isDie() {
+        return health == 0;
     }
 
     void setGoldBase(int goldBase) {

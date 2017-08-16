@@ -63,7 +63,6 @@ public class TaskHelper {
         return num >= 0 && num < taskList.size();
     }
 
-    // TODO: 2017/8/15 Invoke this method when a battle is over
     public void updateTaskProcess(Monster monster) {
         for (int i = 0; i < taskList.size(); i++) {
             Task task = taskList.get(i);
@@ -90,6 +89,7 @@ public class TaskHelper {
 
     private void getPayback(Task task) {
         int[] payback = task.payback();
+        MessageHelper.printMessage("Task " + task.getDescription() + " complete, you get exp" + payback[0], MessageType.PROMPT);
         player.expHelper.expUp(payback[0]);
     }
 }

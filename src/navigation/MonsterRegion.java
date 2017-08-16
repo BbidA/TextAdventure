@@ -1,5 +1,8 @@
 package navigation;
 
+import battle.Battle;
+import io.MessageHelper;
+import io.MessageType;
 import monster.Monster;
 import monster.MonsterFactory;
 import player.Player;
@@ -33,8 +36,22 @@ public class MonsterRegion extends RegionDecorator {
         LinkedList<Monster> monsterQueue = generateMonster();
         while (!monsterQueue.isEmpty()) {
             Monster monster = monsterQueue.removeFirst();
-            // TODO 8/9 Let the monster and the player have a battle
+            Battle battle = new Battle(player, monster);
+            battle.start();
+            // When a battle is over, ask the player whether wanna leave.
+            if (!battle.isPlayerWin() || monsterQueue.isEmpty()) break;
+            else {
+                MessageHelper.printMessage("You wanna go on? Y/N", MessageType.PROMPT);
+                String choice = MessageHelper.take().toLowerCase();
+                if (choice.equals("n"))
+                    break;
+                else if (!choice.equals("y")) {
+                    MessageHelper.printMessage("Invalid input", MessageType.WARNING);
+                    break;
+                }
+            }
         }
+        MessageHelper.printMessage("Battle's over", MessageType.PLAIN);
     }
 
     private LinkedList<Monster> generateMonster() {

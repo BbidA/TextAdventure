@@ -1,5 +1,7 @@
 package monster;
 
+import io.MessageHelper;
+import io.MessageType;
 import repository.ConsumableRepository;
 import repository.EquipmentRepository;
 import player.Player;
@@ -26,7 +28,9 @@ public class Frog extends Monster{
     public void attack(Player player) {
         int playerDefence = player.getDefence();
         int healthReduction = attack * attack / (attack + playerDefence);
+        MessageHelper.printMessage("Frog gives you " + healthReduction + " damage", MessageType.PLAIN);
         player.setLifeValue(player.getLifeValue() - healthReduction);
+        MessageHelper.printMessage("Your current health: " + player.getLifeValue(), MessageType.PLAIN);
     }
 
     @Override

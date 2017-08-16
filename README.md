@@ -5,7 +5,7 @@ A MUD game.
 ## Command List
 
 | Command     | Description |
-| :----:      | ------------|
+| ----      | ------------|
 | up          | Let the player go north|
 |down         | Let the player go south|
 |right        | Let the player go right|

@@ -42,6 +42,7 @@ public class Battle {
         }
     }
 
+    // TODO: 2017/8/16 when the player die, do something to recover his health
     public boolean isPlayerWin() {
         return playerWin;
     }

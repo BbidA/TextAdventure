@@ -97,7 +97,7 @@ public abstract class Monster {
      * Get the items the monster will drop and then this method will update the items this monster takes.
      */
     public void dropItemsTo(Player player) {
-        MessageHelper.printMessage("You get: ", MessageType.PROMPT);
+        MessageHelper.printMessage("You get: ", MessageType.PLAIN);
         // If nothing get, then return.
         if (itemBag.getEquipment() == null && itemBag.getConsumable() == null) {
             MessageHelper.printMessage("Nothing", MessageType.PLAIN);

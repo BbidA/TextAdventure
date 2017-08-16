@@ -9,6 +9,6 @@
     "description": "Frog Upland (Monster)",
     "type": "monster",
     "monster list": ["frog"],
-    "risk level": 2
+    "risk level": 5
   }
 }

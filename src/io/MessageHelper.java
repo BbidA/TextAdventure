@@ -28,8 +28,11 @@ public class MessageHelper {
             System.out.println(SEP_LINE);
             System.out.println(msg);
             System.out.println(SEP_LINE + System.lineSeparator());
-        } else
+        } else if (type == MessageType.PROMPT) {
+            System.out.println("--------------------");
             System.out.println(msg);
+            System.out.println("--------------------");
+        } else System.out.println(msg);
     }
 
     /**

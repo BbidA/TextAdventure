@@ -144,9 +144,10 @@ public class Player {
     public void attack(Monster monster) {
         int monsterDefence = monster.getDefence();
         int healthReduction = attack * attack / (attack + monsterDefence);
-        MessageHelper.printMessage("You give " + monster.getName() + " " + healthReduction + " damage", MessageType.PLAIN);
         monster.setHealth(monster.getHealth() - healthReduction);
-        MessageHelper.printMessage("Monster current health: " + monster.getHealth(), MessageType.PLAIN);
+        String battleMessage = "You give " + monster.getName() + " " + healthReduction + " damage" + System.lineSeparator()
+                + ("Monster current health: " + monster.getHealth());
+        MessageHelper.printMessage(battleMessage, MessageType.PROMPT);
     }
 
     public boolean isDie() {

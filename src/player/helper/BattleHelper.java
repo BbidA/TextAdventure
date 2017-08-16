@@ -8,14 +8,13 @@ import player.Player;
  * @author Liao
  */
 public class BattleHelper {
-    private boolean battleOn = false;
     private Player player;
 
     public BattleHelper(Player player) {
         this.player = player;
     }
 
-    public boolean battleOn() {
-        return battleOn;
+    public void useBattleConsumables() {
+        player.storage.queryBattleBag();
     }
 }

@@ -28,9 +28,10 @@ public class Frog extends Monster{
     public void attack(Player player) {
         int playerDefence = player.getDefence();
         int healthReduction = attack * attack / (attack + playerDefence);
-        MessageHelper.printMessage("Frog gives you " + healthReduction + " damage", MessageType.PLAIN);
         player.setLifeValue(player.getLifeValue() - healthReduction);
-        MessageHelper.printMessage("Your current health: " + player.getLifeValue(), MessageType.PLAIN);
+        String battleMessage = "Frog gives you " + healthReduction + " damage" + System.lineSeparator()
+                + "Your current health: " + player.getLifeValue();
+        MessageHelper.printMessage(battleMessage, MessageType.PROMPT);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class Frog extends Monster{
 
         Random random = new Random();
         int randNum = random.nextInt(10);
-        if (randNum < 5) {
+        if (randNum < 2) {
             // Generate Equipment
             List<String> equipmentRange = Arrays.asList("sword", "hammer", "armour");
             return new ItemBag(EquipmentRepository.INSTANCE.getRandomEquipment(equipmentRange));

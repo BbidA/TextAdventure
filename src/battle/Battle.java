@@ -5,6 +5,10 @@ import io.MessageType;
 import monster.Monster;
 import player.Player;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Created on 2017/8/16.
  * Description:
@@ -21,9 +25,19 @@ public class Battle {
     }
 
     public void start() {
+        List<String> menu = Arrays.asList("Attack", "Use item");
         while (!player.isDie() && !monster.isDie()) {
             // Player first
-            player.attack(monster);
+            MessageHelper.printMenu(menu);
+            int optNum = MessageHelper.getNumberInput();
+            if (!inBounds(optNum, menu)) {
+                MessageHelper.printMessage("Out of bounds", MessageType.WARNING);
+                continue;
+            } else if (optNum == 0)
+                player.attack(monster);
+            else if (!player.battleHelper.useBattleConsumables()) // Failed to use item
+                continue;
+            // Monster react
             if (monster.isDie()) break;
             monster.attack(player);
         }
@@ -40,6 +54,10 @@ public class Battle {
             playerWin = true;
             MessageHelper.printMessage("You win", MessageType.PLAIN);
         }
+    }
+
+    private boolean inBounds(int num, Collection collection) {
+        return num >= 0 && num < collection.size();
     }
 
     // TODO: 2017/8/16 when the player die, do something to recover his health

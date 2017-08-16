@@ -14,7 +14,7 @@ public class BattleHelper {
         this.player = player;
     }
 
-    public void useBattleConsumables() {
-        player.storage.queryBattleBag();
+    public boolean useBattleConsumables() {
+        return player.storage.queryBattleBag();
     }
 }

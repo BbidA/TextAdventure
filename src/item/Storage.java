@@ -257,7 +257,7 @@ public class Storage {
         MessageHelper.printMessage("Which one you'd like to use.", MessageType.PROMPT);
         List<Consumable> consumableList = new ArrayList<>(battleBag.keySet());
         MessageHelper.printMenu(consumableList,
-                consumable -> " | Quantity: " + battleBag.get(consumable) + " | Description: " + consumable.getDescription());
+                consumable -> consumable.getName() + " | Quantity: " + battleBag.get(consumable) + " | Description: " + consumable.getDescription());
         int optNum = MessageHelper.getNumberInput();
         // Check bounds
         if (!inBounds(optNum, consumableList))

@@ -5,7 +5,7 @@ package navigation;
  * Description:
  * @author Liao
  */
-public abstract class RegionDecorator extends Region{
+public abstract class RegionDecorator extends Region {
     protected Region region;
 
     protected RegionDecorator(Region region) {

@@ -2,9 +2,9 @@ package monster;
 
 import io.MessageHelper;
 import io.MessageType;
+import player.Player;
 import repository.ConsumableRepository;
 import repository.EquipmentRepository;
-import player.Player;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Random;
  * Description:
  * @author Liao
  */
-public class Frog extends Monster{
+public class Frog extends Monster {
 
     public Frog(int riskLevel) {
         super("Frog", "I have lots of life experience", 150, 20, 15);

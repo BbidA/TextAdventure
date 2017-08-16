@@ -10,7 +10,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 /**
  * Created on 2017/8/3.
@@ -20,6 +19,7 @@ import java.util.Random;
 class RepositoryHelper {
     private static final int PRESENT_PROPORTION = 80;
     private static final int FULL_PROPORTION = 100;
+
     /**
      * Get a item from a json file.
      * @param name     name of the item.

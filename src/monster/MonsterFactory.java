@@ -11,6 +11,7 @@ import java.util.function.Function;
 public class MonsterFactory {
     // Initialize
     private static Map<String, Function<Integer, Monster>> monsterMap = new HashMap<>();
+
     static {
         monsterMap.put("frog", Frog::new);
     }
@@ -18,7 +19,7 @@ public class MonsterFactory {
     /**
      * Generate a monster you expected.
      * @param monsterName name of the Monster
-     * @param riskLevel riskLevel of the generated monster
+     * @param riskLevel   riskLevel of the generated monster
      * @return monster with expected risk level
      * @throws IllegalArgumentException if there's no such kind of monster
      */
@@ -29,7 +30,7 @@ public class MonsterFactory {
 
     /**
      * Generate a monster from the given list randomly.
-     * @param monsters a monster list which you want the monster to be generated from
+     * @param monsters  a monster list which you want the monster to be generated from
      * @param riskLevel risk level of the monster
      * @return a random monster from the list
      */
